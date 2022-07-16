@@ -77,7 +77,7 @@ STEM_CROSS_X_EXTRA = 0.0; // [-0.3:0.05:0.3]
 // Controls how thick the | part of the Cherry stem cross (+) will be.  Increase this if your keycaps are too loose.  Use a negative value if your keycaps are too tight.
 STEM_CROSS_Y_EXTRA = 0.0; // [-0.3:0.05:0.3]
 // Wiggle room (from a magnet height perspective, not from a diameter perspective)
-MAGNET_TOLERANCE = 0.1;
+MAGNET_THICKNESS_TOLERANCE = 0.1;
 // How much room (diameter-wise) the magnet gets inside the stem.  Negative tolerance by default to hold the magnet tight (really press it in there). PLA and PETG should flex a bit and hold it strongly. For resin you'll probably want to set this to 0 and put some resin in the hole before inserting the magnet to hold it nice and strong.
 STEM_MAGNET_DIAMETER_TOLERANCE = -0.1;
 // TIP FOR RESIN PRINTERS: Set STEM_MAGNET_DIAMETER_TOLERANCE to 0 or 0.05 to avoid cracking and and squirt some resin in there before inserting the magnet for a strong hold.
@@ -216,7 +216,7 @@ for (item=RENDER) {
             top_magnet_cover_thickness=BODY_MAGNET_COVER_THICKNESS,
             magnet_height=STEM_MAGNET_HEIGHT,
             magnet_wall_thickness=MAGNET_WALL_THICKNESS,
-            magnet_tolerance=MAGNET_TOLERANCE,
+            magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
             magnet_void=MAGNET_VOID,
             sheath_end_stop_thickness=SHEATH_END_STOP_THICKNESS,
             corner_radius=BODY_CORNER_RADIUS,
@@ -245,7 +245,7 @@ for (item=RENDER) {
             top_magnet_cover_thickness=BODY_MAGNET_COVER_THICKNESS,
             magnet_height=STEM_MAGNET_HEIGHT,
             magnet_wall_thickness=MAGNET_WALL_THICKNESS,
-            magnet_tolerance=MAGNET_TOLERANCE,
+            magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
             magnet_void=MAGNET_VOID,
             sheath_end_stop_thickness=SHEATH_END_STOP_THICKNESS,
             corner_radius=BODY_CORNER_RADIUS,
@@ -262,7 +262,7 @@ for (item=RENDER) {
             -BODY_MAGNET_COVER_THICKNESS
             +STEM_MAGNET_HEIGHT
             +MAGNET_WALL_THICKNESS*2
-            +MAGNET_TOLERANCE
+            +MAGNET_THICKNESS_TOLERANCE
             +MAGNET_VOID)/2
             +BODY_MAGNET_HEIGHT/2);
         translate([
@@ -281,7 +281,7 @@ for (item=RENDER) {
                     top_magnet_cover_thickness=BODY_MAGNET_COVER_THICKNESS,
                     magnet_height=STEM_MAGNET_HEIGHT,
                     magnet_diameter=STEM_MAGNET_DIAMETER,
-                    magnet_tolerance=MAGNET_TOLERANCE,
+                    magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                     magnet_diameter_tolerance=SHEATH_MAGNET_DIAMETER_TOLERANCE,
                     end_stop_thickness=SHEATH_END_STOP_THICKNESS,
                     magnet_void=MAGNET_VOID,
@@ -307,7 +307,7 @@ for (item=RENDER) {
             top_magnet_cover_thickness=BODY_MAGNET_COVER_THICKNESS,
             magnet_height=STEM_MAGNET_HEIGHT,
             magnet_wall_thickness=MAGNET_WALL_THICKNESS,
-            magnet_tolerance=MAGNET_TOLERANCE,
+            magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
             magnet_void=MAGNET_VOID,
             sheath_end_stop_thickness=SHEATH_END_STOP_THICKNESS,
             corner_radius=BODY_CORNER_RADIUS,
@@ -331,7 +331,7 @@ for (item=RENDER) {
                     top_magnet_cover_thickness=BODY_MAGNET_COVER_THICKNESS,
                     magnet_height=STEM_MAGNET_HEIGHT,
                     magnet_diameter=STEM_MAGNET_DIAMETER,
-                    magnet_tolerance=MAGNET_TOLERANCE,
+                    magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                     magnet_diameter_tolerance=SHEATH_MAGNET_DIAMETER_TOLERANCE,
                     end_stop_thickness=SHEATH_END_STOP_THICKNESS,
                     magnet_void=MAGNET_VOID,
@@ -343,7 +343,7 @@ for (item=RENDER) {
                     snug_magnet=SHEATH_HOLDS_MAGNET);
     } else if (item=="sheath_double_sided") {
         translate([BODY_LENGTH/1.05,0,(SHEATH_LENGTH+TOTAL_TRAVEL-BODY_MAGNET_COVER_THICKNESS+
-             STEM_MAGNET_HEIGHT+MAGNET_WALL_THICKNESS*2+MAGNET_TOLERANCE+MAGNET_VOID+COVER_THICKNESS)/2+BODY_MAGNET_HEIGHT/2])
+             STEM_MAGNET_HEIGHT+MAGNET_WALL_THICKNESS*2+MAGNET_THICKNESS_TOLERANCE+MAGNET_VOID+COVER_THICKNESS)/2+BODY_MAGNET_HEIGHT/2])
             rotate([90,0,0]) // Line it up
                 sheath_cherry_cross_double_sided(SHEATH_LENGTH, STEM_DIAMETER, TOTAL_TRAVEL, COVER_THICKNESS,
                     stem_tolerance=STEM_TOLERANCE,
@@ -356,7 +356,7 @@ for (item=RENDER) {
                     top_magnet_cover_thickness=BODY_MAGNET_COVER_THICKNESS,
                     magnet_height=STEM_MAGNET_HEIGHT,
                     magnet_diameter=STEM_MAGNET_DIAMETER,
-                    magnet_tolerance=MAGNET_TOLERANCE,
+                    magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                     magnet_diameter_tolerance=SHEATH_MAGNET_DIAMETER_TOLERANCE,
                     end_stop_thickness=SHEATH_END_STOP_THICKNESS,
                     magnet_void=MAGNET_VOID,
@@ -373,7 +373,7 @@ for (item=RENDER) {
                     magnet_wall_thickness=MAGNET_WALL_THICKNESS,
                     magnet_height=STEM_MAGNET_HEIGHT,
                     magnet_diameter=STEM_MAGNET_DIAMETER,
-                    magnet_tolerance=MAGNET_TOLERANCE,
+                    magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                     magnet_diameter_tolerance=STEM_MAGNET_DIAMETER_TOLERANCE,
                     lip_height=SHEATH_LIP_HEIGHT,
                     body_magnet_height=BODY_MAGNET_HEIGHT,
@@ -384,13 +384,13 @@ for (item=RENDER) {
                     cross_x_extra=STEM_CROSS_X_EXTRA,
                     cross_y_extra=STEM_CROSS_Y_EXTRA);
     } else if (item=="stem_double_sided") {
-        translate([-BODY_LENGTH/1.25,-TOTAL_TRAVEL/1.15,TOTAL_TRAVEL+COVER_THICKNESS+SHEATH_LIP_HEIGHT+SHEATH_LENGTH+STEM_MAGNET_HEIGHT+MAGNET_WALL_THICKNESS*2+MAGNET_TOLERANCE+MAGNET_VOID+BODY_MAGNET_HEIGHT]) // STEM
+        translate([-BODY_LENGTH/1.25,-TOTAL_TRAVEL/1.15,TOTAL_TRAVEL+COVER_THICKNESS+SHEATH_LIP_HEIGHT+SHEATH_LENGTH+STEM_MAGNET_HEIGHT+MAGNET_WALL_THICKNESS*2+MAGNET_THICKNESS_TOLERANCE+MAGNET_VOID+BODY_MAGNET_HEIGHT]) // STEM
             rotate([-90,0,0]) // Line it up so we can bring it closer
                 stem_cherry_cross_double_magnet(TOTAL_TRAVEL, STEM_DIAMETER, SHEATH_LENGTH, WALL_THICKNESS, COVER_THICKNESS, STEM_TYPE,
                     magnet_wall_thickness=MAGNET_WALL_THICKNESS,
                     magnet_height=STEM_MAGNET_HEIGHT,
                     magnet_diameter=STEM_MAGNET_DIAMETER,
-                    magnet_tolerance=MAGNET_TOLERANCE,
+                    magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                     magnet_diameter_tolerance=STEM_MAGNET_DIAMETER_TOLERANCE,
                     lip_height=SHEATH_LIP_HEIGHT,
                     body_magnet_height=BODY_MAGNET_HEIGHT,
@@ -406,7 +406,7 @@ for (item=RENDER) {
                 magnet_wall_thickness=MAGNET_WALL_THICKNESS,
                 magnet_height=STEM_MAGNET_HEIGHT,
                 magnet_diameter=STEM_MAGNET_DIAMETER,
-                magnet_tolerance=MAGNET_TOLERANCE,
+                magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                 magnet_diameter_tolerance=STEM_MAGNET_DIAMETER_TOLERANCE,
                 lip_height=SHEATH_LIP_HEIGHT,
                 body_magnet_height=BODY_MAGNET_HEIGHT,
@@ -422,7 +422,7 @@ for (item=RENDER) {
             -sheath_height/2+SHEATH_WALL_THICKNESS*1.5-STEM_TOLERANCE,
             sheath_height/2-SHEATH_WALL_THICKNESS*1.5+STEM_TOLERANCE,
             (SHEATH_LENGTH+TOTAL_TRAVEL-BODY_MAGNET_COVER_THICKNESS+
-             STEM_MAGNET_HEIGHT+MAGNET_WALL_THICKNESS*2+MAGNET_TOLERANCE+MAGNET_VOID+COVER_THICKNESS)/2-SHEATH_LIP_HEIGHT+BODY_MAGNET_HEIGHT/2-0.01
+             STEM_MAGNET_HEIGHT+MAGNET_WALL_THICKNESS*2+MAGNET_THICKNESS_TOLERANCE+MAGNET_VOID+COVER_THICKNESS)/2-SHEATH_LIP_HEIGHT+BODY_MAGNET_HEIGHT/2-0.01
           ])
             rotate([90,0,45])
                 sheath_cherry_cross(SHEATH_LENGTH, STEM_DIAMETER, TOTAL_TRAVEL, COVER_THICKNESS,
@@ -436,7 +436,7 @@ for (item=RENDER) {
                     top_magnet_cover_thickness=BODY_MAGNET_COVER_THICKNESS,
                     magnet_height=STEM_MAGNET_HEIGHT,
                     magnet_diameter=STEM_MAGNET_DIAMETER,
-                    magnet_tolerance=MAGNET_TOLERANCE,
+                    magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                     magnet_diameter_tolerance=SHEATH_MAGNET_DIAMETER_TOLERANCE,
                     end_stop_thickness=SHEATH_END_STOP_THICKNESS,
                     magnet_void=MAGNET_VOID,
@@ -448,7 +448,7 @@ for (item=RENDER) {
                     snug_magnet=SHEATH_HOLDS_MAGNET);
         rotate([0,0,-90]) translate([
             -0.95,0.95,
-            -SHEATH_LIP_HEIGHT-TOTAL_TRAVEL-MAGNET_WALL_THICKNESS+MAGNET_TOLERANCE/2
+            -SHEATH_LIP_HEIGHT-TOTAL_TRAVEL-MAGNET_WALL_THICKNESS+MAGNET_THICKNESS_TOLERANCE/2
           ])
             rotate([90,0,45]) color([0,1,0,1]) // Keyup (green)
                 stem_cherry_cross(TOTAL_TRAVEL, STEM_DIAMETER, SHEATH_LENGTH,
@@ -456,7 +456,7 @@ for (item=RENDER) {
                     magnet_wall_thickness=MAGNET_WALL_THICKNESS,
                     magnet_height=STEM_MAGNET_HEIGHT,
                     magnet_diameter=STEM_MAGNET_DIAMETER,
-                    magnet_tolerance=MAGNET_TOLERANCE,
+                    magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                     magnet_diameter_tolerance=STEM_MAGNET_DIAMETER_TOLERANCE,
                     lip_height=SHEATH_LIP_HEIGHT,
                     body_magnet_height=BODY_MAGNET_HEIGHT,
@@ -470,7 +470,7 @@ for (item=RENDER) {
         rotate([0,0,-90]) translate([
             -2.2, 2.2,
             (SHEATH_LENGTH+TOTAL_TRAVEL-BODY_MAGNET_COVER_THICKNESS+
-             STEM_MAGNET_HEIGHT+MAGNET_WALL_THICKNESS*2+MAGNET_TOLERANCE+MAGNET_VOID+COVER_THICKNESS)/2-SHEATH_LIP_HEIGHT+BODY_MAGNET_HEIGHT/2
+             STEM_MAGNET_HEIGHT+MAGNET_WALL_THICKNESS*2+MAGNET_THICKNESS_TOLERANCE+MAGNET_VOID+COVER_THICKNESS)/2-SHEATH_LIP_HEIGHT+BODY_MAGNET_HEIGHT/2
             ])
             rotate([90,0,45])
                 sheath_cherry_cross(SHEATH_LENGTH, STEM_DIAMETER, TOTAL_TRAVEL, COVER_THICKNESS,
@@ -484,7 +484,7 @@ for (item=RENDER) {
                     top_magnet_cover_thickness=BODY_MAGNET_COVER_THICKNESS,
                     magnet_height=STEM_MAGNET_HEIGHT,
                     magnet_diameter=STEM_MAGNET_DIAMETER,
-                    magnet_tolerance=MAGNET_TOLERANCE,
+                    magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                     magnet_diameter_tolerance=SHEATH_MAGNET_DIAMETER_TOLERANCE,
                     end_stop_thickness=SHEATH_END_STOP_THICKNESS,
                     magnet_void=MAGNET_VOID,
@@ -503,7 +503,7 @@ for (item=RENDER) {
                     magnet_wall_thickness=MAGNET_WALL_THICKNESS,
                     magnet_height=STEM_MAGNET_HEIGHT,
                     magnet_diameter=STEM_MAGNET_DIAMETER,
-                    magnet_tolerance=MAGNET_TOLERANCE,
+                    magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE,
                     magnet_diameter_tolerance=STEM_MAGNET_DIAMETER_TOLERANCE,
                     lip_height=SHEATH_LIP_HEIGHT,
                     body_magnet_height=BODY_MAGNET_HEIGHT,
@@ -529,12 +529,12 @@ for (item=RENDER) {
             rotate([0,180,0]) translate([-11,10,-1]) linear_extrude(height=1, center=true)
                 text("Switch Plate", size=3);
     } else if (item=="visualize_reed_switch") { // Make a pretend switch plate
-        color([0.5,0.6,0.5,0.8]) translate([-BODY_LENGTH/2+WALL_THICKNESS/1.25,0,1.25+TOTAL_TRAVEL+SHEATH_LENGTH+COVER_THICKNESS+STEM_MAGNET_HEIGHT+MAGNET_TOLERANCE+MAGNET_WALL_THICKNESS*2]) {
+        color([0.5,0.6,0.5,0.8]) translate([-BODY_LENGTH/2+WALL_THICKNESS/1.25,0,1.25+TOTAL_TRAVEL+SHEATH_LENGTH+COVER_THICKNESS+STEM_MAGNET_HEIGHT+MAGNET_THICKNESS_TOLERANCE+MAGNET_WALL_THICKNESS*2]) {
             rotate([90,0,0]) cylinder(d=1.25, h=5, center=true);
             cube([1,BODY_WIDTH,0.4], center=true);
         }
     } else if (item=="levitator") {
-        translate([25, 0, 0]) levitator(BODY_MAGNET_DIAMETER, BODY_MAGNET_HEIGHT, STEM_TYPE, magnet_distance=3.75, magnet_tolerance=MAGNET_TOLERANCE, wall_thickness=0.9, thickness=1, stem_tolerance=0.15);
+        translate([25, 0, 0]) levitator(BODY_MAGNET_DIAMETER, BODY_MAGNET_HEIGHT, STEM_TYPE, magnet_distance=3.75, magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE, wall_thickness=0.9, thickness=1, stem_tolerance=0.15);
     }
 }
 

@@ -19,14 +19,14 @@ CHERRY_CROSS_LENGTH = 4; // Length of the - and the | in the +
 
 // This fits into the switch body--what the stem slides in and out of
 module sheath_cherry_cross(length, stem_diameter, travel, cover_thickness,
-    stem_tolerance=0.2, sheath_tolerance=0.2, wall_thickness=1.4, lip_height=1, lip_overhang=1, top_magnet_height=2, top_magnet_diameter=4, top_magnet_cover_thickness=-0.5, magnet_height=2, magnet_diameter=4, magnet_wall_thickness=0.5, magnet_tolerance=0, magnet_diameter_tolerance=0, end_stop_thickness=0.8, magnet_void=0, snap_pip_height=0.4, snap_pip_length=1.5, snap_pip_width=1.5, notch_angle=1, bottom_clip_width=1.5, snug_magnet=true, inside_body=false, mark_tolerance=true) {
+    stem_tolerance=0.2, sheath_tolerance=0.2, wall_thickness=1.4, lip_height=1, lip_overhang=1, top_magnet_height=2, top_magnet_diameter=4, top_magnet_cover_thickness=-0.5, magnet_height=2, magnet_diameter=4, magnet_wall_thickness=0.5, magnet_thickness_tolerance=0, magnet_diameter_tolerance=0, end_stop_thickness=0.8, magnet_void=0, snap_pip_height=0.4, snap_pip_length=1.5, snap_pip_width=1.5, notch_angle=1, bottom_clip_width=1.5, snug_magnet=true, inside_body=false, mark_tolerance=true) {
     sheath_width = stem_diameter+wall_thickness*2; // Side-to-side wall_thickness doesn't need to be as strong
     sheath_height = stem_diameter+wall_thickness*2; // Need wall_thickness to be full height above/below
     total_travel = travel+top_magnet_height;
     stopper_height = CHERRY_CYLINDER_DIAMETER/2.25; // Height of the wall at the end (should be high enough to stop the stem when inserting a keycap but short enough that you can still slide it in (to the point where it clicks/snaps into place)
     sheath_overall_length = (
         cover_thickness+length+total_travel-top_magnet_cover_thickness
-        +magnet_height+magnet_wall_thickness*2+magnet_tolerance
+        +magnet_height+magnet_wall_thickness*2+magnet_thickness_tolerance
         +magnet_void); // NOTE: Doesn't include the lip_height on purpose
     // Uncomment these to debug the length/height if you've made changes and things aren't lining up or aren't the right length;
 //    echo(sheath_width=sheath_width);
@@ -63,7 +63,7 @@ module sheath_cherry_cross(length, stem_diameter, travel, cover_thickness,
                 translate([ // Generate the ring around the magnet (that holds it in place)
                   0,
                   -sheath_overall_length/2+top_magnet_height/2+magnet_wall_thickness+length/2+0.001,
-//                  top_magnet_diameter+magnet_wall_thickness/2+magnet_tolerance/2
+//                  top_magnet_diameter+magnet_wall_thickness/2+magnet_thickness_tolerance/2
                     -sheath_height/2+(top_magnet_diameter+magnet_wall_thickness*3)/2+stem_diameter
                 ])
                     rotate([90,0,0])
@@ -85,7 +85,7 @@ module sheath_cherry_cross(length, stem_diameter, travel, cover_thickness,
                 stem_cherry_cross(total_travel,
                     stem_diameter, length, wall_thickness, cover_thickness,
                     magnet_height=magnet_height, magnet_diameter=magnet_diameter,
-                    magnet_tolerance=magnet_tolerance,
+                    magnet_thickness_tolerance=magnet_thickness_tolerance,
                     magnet_wall_thickness=magnet_wall_thickness,
                     lip_height=lip_height, extra_tolerance=stem_tolerance,
                     notch_angle=notch_angle);
@@ -210,26 +210,26 @@ module sheath_cherry_cross(length, stem_diameter, travel, cover_thickness,
 }
 
 module sheath_cherry_cross_double_sided(length, stem_diameter, travel, cover_thickness,
-    stem_tolerance=0.2, sheath_tolerance=0.2, wall_thickness=1.4, lip_height=1, lip_overhang=1, top_magnet_height=2, top_magnet_diameter=4, top_magnet_cover_thickness=-0.5, magnet_height=2, magnet_diameter=4, magnet_wall_thickness=0.5, magnet_tolerance=0, magnet_diameter_tolerance=0, end_stop_thickness=0.8, magnet_void=0, snap_pip_height=0.4, snap_pip_length=1.5, snap_pip_width=1.5, notch_angle=1, bottom_clip_width=1.5, snug_magnet=true, inside_body=false, mark_tolerance=true) {
+    stem_tolerance=0.2, sheath_tolerance=0.2, wall_thickness=1.4, lip_height=1, lip_overhang=1, top_magnet_height=2, top_magnet_diameter=4, top_magnet_cover_thickness=-0.5, magnet_height=2, magnet_diameter=4, magnet_wall_thickness=0.5, magnet_thickness_tolerance=0, magnet_diameter_tolerance=0, end_stop_thickness=0.8, magnet_void=0, snap_pip_height=0.4, snap_pip_length=1.5, snap_pip_width=1.5, notch_angle=1, bottom_clip_width=1.5, snug_magnet=true, inside_body=false, mark_tolerance=true) {
     sheath_width = stem_diameter+wall_thickness*2; // Side-to-side wall_thickness doesn't need to be as strong
     sheath_height = stem_diameter+wall_thickness*2; // Need wall_thickness to be full height above/below
     total_travel = travel+top_magnet_height;
     sheath_overall_length = (
         cover_thickness+length+total_travel-top_magnet_cover_thickness
-        +magnet_height+magnet_wall_thickness*2+magnet_tolerance
+        +magnet_height+magnet_wall_thickness*2+magnet_thickness_tolerance
         +magnet_void); // NOTE: Doesn't include the lip_height on purpose
     // Use the normal sheath_cherry_cross() module, mirror it, then cut out the unnecessary middle section
     difference() {
         union() {
             difference() {
-                sheath_cherry_cross(length, stem_diameter, travel, cover_thickness, stem_tolerance=stem_tolerance, sheath_tolerance=sheath_tolerance, wall_thickness=wall_thickness, lip_height=lip_height, lip_overhang=lip_overhang, top_magnet_height=top_magnet_height, top_magnet_diameter=top_magnet_diameter, top_magnet_cover_thickness=top_magnet_cover_thickness, magnet_height=magnet_height, magnet_diameter=magnet_diameter, magnet_wall_thickness=magnet_wall_thickness, magnet_tolerance=magnet_tolerance, magnet_diameter_tolerance=magnet_diameter_tolerance, end_stop_thickness=end_stop_thickness, magnet_void=magnet_void, snap_pip_height=snap_pip_height, snap_pip_length=snap_pip_length, snap_pip_width=snap_pip_width, notch_angle=notch_angle, bottom_clip_width=bottom_clip_width, snug_magnet=snug_magnet, inside_body=inside_body, mark_tolerance=false);
+                sheath_cherry_cross(length, stem_diameter, travel, cover_thickness, stem_tolerance=stem_tolerance, sheath_tolerance=sheath_tolerance, wall_thickness=wall_thickness, lip_height=lip_height, lip_overhang=lip_overhang, top_magnet_height=top_magnet_height, top_magnet_diameter=top_magnet_diameter, top_magnet_cover_thickness=top_magnet_cover_thickness, magnet_height=magnet_height, magnet_diameter=magnet_diameter, magnet_wall_thickness=magnet_wall_thickness, magnet_thickness_tolerance=magnet_thickness_tolerance, magnet_diameter_tolerance=magnet_diameter_tolerance, end_stop_thickness=end_stop_thickness, magnet_void=magnet_void, snap_pip_height=snap_pip_height, snap_pip_length=snap_pip_length, snap_pip_width=snap_pip_width, notch_angle=notch_angle, bottom_clip_width=bottom_clip_width, snug_magnet=snug_magnet, inside_body=inside_body, mark_tolerance=false);
                 translate([0,lip_height,0])
                     cube([total_travel+length,sheath_overall_length,sheath_width], center=true);
             }
             translate([0,0,sheath_height]) mirror([0,0,1])
                 difference() {
                     sheath_cherry_cross(length, stem_diameter, travel, cover_thickness,
-            stem_tolerance=stem_tolerance, sheath_tolerance=sheath_tolerance, wall_thickness=wall_thickness, lip_height=lip_height, lip_overhang=lip_overhang, top_magnet_height=top_magnet_height, top_magnet_diameter=top_magnet_diameter, top_magnet_cover_thickness=top_magnet_cover_thickness, magnet_height=magnet_height, magnet_diameter=magnet_diameter, magnet_wall_thickness=magnet_wall_thickness, magnet_tolerance=magnet_tolerance, magnet_diameter_tolerance=magnet_diameter_tolerance, end_stop_thickness=end_stop_thickness, magnet_void=magnet_void, snap_pip_height=snap_pip_height, snap_pip_length=snap_pip_length, snap_pip_width=snap_pip_width, notch_angle=notch_angle, bottom_clip_width=bottom_clip_width, snug_magnet=snug_magnet, inside_body=inside_body, mark_tolerance=false);
+            stem_tolerance=stem_tolerance, sheath_tolerance=sheath_tolerance, wall_thickness=wall_thickness, lip_height=lip_height, lip_overhang=lip_overhang, top_magnet_height=top_magnet_height, top_magnet_diameter=top_magnet_diameter, top_magnet_cover_thickness=top_magnet_cover_thickness, magnet_height=magnet_height, magnet_diameter=magnet_diameter, magnet_wall_thickness=magnet_wall_thickness, magnet_thickness_tolerance=magnet_thickness_tolerance, magnet_diameter_tolerance=magnet_diameter_tolerance, end_stop_thickness=end_stop_thickness, magnet_void=magnet_void, snap_pip_height=snap_pip_height, snap_pip_length=snap_pip_length, snap_pip_width=snap_pip_width, notch_angle=notch_angle, bottom_clip_width=bottom_clip_width, snug_magnet=snug_magnet, inside_body=inside_body, mark_tolerance=false);
                     translate([0,lip_height,0])
                         cube([total_travel+length,sheath_overall_length,sheath_width], center=true);
                 }

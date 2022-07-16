@@ -18,7 +18,7 @@ use <utils.scad>
 LEVITATOR_THICKNESS = 0.4; // How thick the floor will be/how much of the cross part of the stem (+) gets eaten by THE LEVITATOR
 WALL_THICKNESS = 0.8; // How thick around the edges you want it to be (0.8 is fine and fits under most keycaps)
 STEM_TOLERANCE = 0.15; // How tight the cross-shaped cutout will be
-MAGNET_TOLERANCE = 0.2; // Only used with MAGNET_HEIGHT (because we have some bridging)
+MAGNET_THICKNESS_TOLERANCE = 0.2; // Only used with MAGNET_HEIGHT (because we have some bridging)
 MAGNET_DIAMETER = 4;
 MAGNET_HEIGHT = 2;
 MAGNET_DISTANCE = 3.75; // Distance from the center of the stem where the magnet goes
@@ -30,16 +30,16 @@ CHERRY_CROSS_LENGTH = 4; // Length of the - and the | in the +
 CHERRY_CROSS_THICKNESS_X = 1.1; // Width of the - and in the + (Reality: 1.31)
 CHERRY_CROSS_THICKNESS_Y = 1.1; // Width of the | in the + (Reality: 1.09)
 
-levitator(MAGNET_DIAMETER, MAGNET_HEIGHT, magnet_distance=MAGNET_DISTANCE, magnet_tolerance=MAGNET_TOLERANCE, wall_thickness=WALL_THICKNESS, thickness=LEVITATOR_THICKNESS, stem_tolerance=STEM_TOLERANCE);
-//levitator_double_sided(MAGNET_DIAMETER, MAGNET_HEIGHT, magnet_distance=MAGNET_DISTANCE, magnet_tolerance=MAGNET_TOLERANCE, wall_thickness=WALL_THICKNESS, thickness=LEVITATOR_THICKNESS, stem_tolerance=STEM_TOLERANCE);
+levitator(MAGNET_DIAMETER, MAGNET_HEIGHT, magnet_distance=MAGNET_DISTANCE, magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE, wall_thickness=WALL_THICKNESS, thickness=LEVITATOR_THICKNESS, stem_tolerance=STEM_TOLERANCE);
+//levitator_double_sided(MAGNET_DIAMETER, MAGNET_HEIGHT, magnet_distance=MAGNET_DISTANCE, magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE, wall_thickness=WALL_THICKNESS, thickness=LEVITATOR_THICKNESS, stem_tolerance=STEM_TOLERANCE);
 
 // TODO: Finish making this as well as making a matching void space version for top plates:
 // This is for the special situations with long ass/heavy spacebars: 
 BACKFORCE_LENGTH = 30; // 15mm from the center of the switch on either side
 BACKFORCE_WIDTH = 11; // Needs to fit inside/under the keycap but not terribly tight--just enough to prevent it from rotating
-//uplifting_jigaroo(BACKFORCE_LENGTH, BACKFORCE_WIDTH, stem_diameter=CHERRY_CYLINDER_DIAMETER, magnet_diameter=4, magnet_height=2, magnet_tolerance=0, wall_thickness=1.2);
+//uplifting_jigaroo(BACKFORCE_LENGTH, BACKFORCE_WIDTH, stem_diameter=CHERRY_CYLINDER_DIAMETER, magnet_diameter=4, magnet_height=2, magnet_thickness_tolerance=0, wall_thickness=1.2);
 
-module levitator(magnet_diameter, magnet_height, stem_type, magnet_distance=3.75, magnet_tolerance=MAGNET_TOLERANCE, wall_thickness=0.9, thickness=1, stem_tolerance=0.15) {
+module levitator(magnet_diameter, magnet_height, stem_type, magnet_distance=3.75, magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE, wall_thickness=0.9, thickness=1, stem_tolerance=0.15) {
     // NOTE: stem_tolerance is the keycap stem; not the switch stem
     height = 2 + wall_thickness; // Just enough to grab the stem
     difference() {
@@ -64,14 +64,14 @@ module levitator(magnet_diameter, magnet_height, stem_type, magnet_distance=3.75
                 CHERRY_CYLINDER_DIAMETER+stem_tolerance*2,
                 CHERRY_CYLINDER_DIAMETER+stem_tolerance*2,
                 height+wall_thickness], center=true);
-        translate([magnet_distance,magnet_distance,(magnet_height+magnet_tolerance)/2-0.01]) {
-            cylinder(d=magnet_diameter, h=magnet_height+magnet_tolerance, center=true);
+        translate([magnet_distance,magnet_distance,(magnet_height+magnet_thickness_tolerance)/2-0.01]) {
+            cylinder(d=magnet_diameter, h=magnet_height+magnet_thickness_tolerance, center=true);
             // So we can pop the magnet out if we screw up which pole is facing down:
 //            rotate([0,0,45])
 //                cube([magnet_diameter/3,magnet_diameter/3,100], center=true);
         }
         // Make an angled hole in the top that stops the magnet from coming out while also letting you push it out if needed to flip it around
-        translate([magnet_distance,magnet_distance,wall_thickness/2+(magnet_height+magnet_tolerance)-0.01])
+        translate([magnet_distance,magnet_distance,wall_thickness/2+(magnet_height+magnet_thickness_tolerance)-0.01])
             cylinder(d1=magnet_diameter, d2=magnet_diameter/1.5, h=wall_thickness, center=true);
         // Cut off a few bits here and there so it can fit under more keycaps
 //        translate([magnet_distance*2+wall_thickness/1.25,magnet_distance*1.25,magnet_diameter/2])
@@ -84,7 +84,7 @@ module levitator(magnet_diameter, magnet_height, stem_type, magnet_distance=3.75
     }
 }
 
-module levitator_double_sided(magnet_diameter, magnet_height, magnet_distance=3.75, magnet_tolerance=MAGNET_TOLERANCE, wall_thickness=0.9, thickness=1, stem_tolerance=0.15) {
+module levitator_double_sided(magnet_diameter, magnet_height, magnet_distance=3.75, magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE, wall_thickness=0.9, thickness=1, stem_tolerance=0.15) {
     // NOTE: stem_tolerance is the keycap stem; not the switch stem
     height = 2 + wall_thickness; // Just enough to grab the stem
     difference() {
@@ -111,14 +111,14 @@ module levitator_double_sided(magnet_diameter, magnet_height, magnet_distance=3.
                 CHERRY_CYLINDER_DIAMETER+stem_tolerance*2,
                 CHERRY_CYLINDER_DIAMETER+stem_tolerance*2,
                 height+wall_thickness], center=true);
-        translate([magnet_distance,magnet_distance,(magnet_height+magnet_tolerance)/2-0.01])
-            cylinder(d=magnet_diameter, h=magnet_height+magnet_tolerance, center=true);
-        translate([-magnet_distance,-magnet_distance,(magnet_height+magnet_tolerance)/2-0.01])
-            cylinder(d=magnet_diameter, h=magnet_height+magnet_tolerance, center=true);
+        translate([magnet_distance,magnet_distance,(magnet_height+magnet_thickness_tolerance)/2-0.01])
+            cylinder(d=magnet_diameter, h=magnet_height+magnet_thickness_tolerance, center=true);
+        translate([-magnet_distance,-magnet_distance,(magnet_height+magnet_thickness_tolerance)/2-0.01])
+            cylinder(d=magnet_diameter, h=magnet_height+magnet_thickness_tolerance, center=true);
         // Make an angled hole in the top that stops the magnet from coming out while also letting you push it out if needed to flip it around
-        translate([magnet_distance,magnet_distance,wall_thickness/2+(magnet_height+magnet_tolerance)-0.01])
+        translate([magnet_distance,magnet_distance,wall_thickness/2+(magnet_height+magnet_thickness_tolerance)-0.01])
             cylinder(d1=magnet_diameter, d2=magnet_diameter/1.5, h=wall_thickness, center=true);
-        translate([-magnet_distance,-magnet_distance,wall_thickness/2+(magnet_height+magnet_tolerance)-0.01])
+        translate([-magnet_distance,-magnet_distance,wall_thickness/2+(magnet_height+magnet_thickness_tolerance)-0.01])
             cylinder(d1=magnet_diameter, d2=magnet_diameter/1.5, h=wall_thickness, center=true);
         // Cut off a few bits here and there so it can fit under more keycaps
         translate([magnet_distance*1.5,magnet_distance*1.5,magnet_diameter/1.35])
@@ -132,18 +132,18 @@ module levitator_double_sided(magnet_diameter, magnet_height, magnet_distance=3.
 
 // This is a magnetic levitation backward-force generator that can be placed under any given (long) keycap to cusion the bottom and provide a backwards (upwards) force to ease the burden of bringing a heavy keycap back up.  In other words, it's for (heavy) spacebars.  NOTE: The *length* is really just the distance between the center of the magnets--not the actual length of the thing.
 // NOTE: Requires matching magnets (same locations underneath) in the keyboard plate!
-module uplifting_jigaroo(length, width, stem_diameter=CHERRY_CYLINDER_DIAMETER, magnet_diameter=4, magnet_height=2, magnet_tolerance=0, wall_thickness=1.2) {
+module uplifting_jigaroo(length, width, stem_diameter=CHERRY_CYLINDER_DIAMETER, magnet_diameter=4, magnet_height=2, magnet_thickness_tolerance=0, wall_thickness=1.2) {
     // NOTE: We make this pretty thick so it's stable--even though that adds extra weight
     difference() {
         cube([
-            length+magnet_diameter+magnet_tolerance*2+wall_thickness*2,
+            length+magnet_diameter+magnet_thickness_tolerance*2+wall_thickness*2,
             width,
             magnet_height+wall_thickness], center=true);
         cube([stem_diameter,stem_diameter,wall_thickness*8], center=true);
         translate([length/2,0,magnet_height/2-wall_thickness/4])
-            cylinder(d=magnet_diameter+magnet_tolerance*2, h=magnet_height+0.01, center=true);
+            cylinder(d=magnet_diameter+magnet_thickness_tolerance*2, h=magnet_height+0.01, center=true);
         translate([-length/2,0,magnet_height/2-wall_thickness/4])
-            cylinder(d=magnet_diameter+magnet_tolerance*2, h=magnet_height+0.01, center=true);
+            cylinder(d=magnet_diameter+magnet_thickness_tolerance*2, h=magnet_height+0.01, center=true);
     }
 }
 
