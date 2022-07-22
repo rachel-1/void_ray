@@ -129,7 +129,7 @@ SHEATH_WALL_THICKNESS = 1.2; // Doesn't need to be quite as thick/strong as the 
 // How much wiggle room the sheath gets as it slides into the body
 SHEATH_TOLERANCE = 0.15;
 // Wiggle room for the magnet where it gets inserted into the sheath (default: 0.1 for strong hold). NOTE: If you have problems with the sheath breaking when you insert the magnet just make this big (e.g. 0.25) and just use some glue.
-SHEATH_MAGNET_DIAMETER_TOLERANCE = 0.3;
+SHEATH_MAGNET_DIAMETER_TOLERANCE = 0.2;
 // TIP FOR RESIN PRINTERS: Resin tends to be brittle so to prevent cracking when inserting the magnet you may want to set SHEATH_MAGNET_DIAMETER_TOLERANCE to something like 0.1 and squirt some resin on the magnet after insertion to hold it in place.
 // How much the sheath lip sticks out on top of the switch body
 SHEATH_LIP_OVERHANG = 1;
@@ -156,6 +156,7 @@ $fn = 64;
 
 // Choose what to render. Options are: "body", "sheath", "stem", "body+sheath" (for resin/high res printers), "%body" (for transparent body), "visualize_keyup", "visualize_keydown", "switch_plate". Example to visualize the switch sitting in your keyboard: ["%body", "visualize_keyup", "switch_plate"];
 RENDER = ["body", "levitator"];
+RENDER = ["body", "sheath", "stem"];
 //RENDER = ["sheath_double_sided", ""];
 // You can combine the body and sheath into a single unit if you have a resin printer since the resolution is tight enough that you don't need to worry about the orientation of the layer lines:
 //RENDER = ["body+sheath", "stem"];
