@@ -19,8 +19,8 @@ LEVITATOR_THICKNESS = 0.4; // How thick the floor will be/how much of the cross 
 WALL_THICKNESS = 0.8; // How thick around the edges you want it to be (0.8 is fine and fits under most keycaps)
 STEM_TOLERANCE = 0.15; // How tight the cross-shaped cutout will be
 MAGNET_THICKNESS_TOLERANCE = 0.2; // Only used with MAGNET_HEIGHT (because we have some bridging)
-MAGNET_DIAMETER = 4;
-MAGNET_HEIGHT = 2;
+MAGNET_DIAMETER = 3;
+MAGNET_HEIGHT = 1;
 MAGNET_DISTANCE = 3.75; // Distance from the center of the stem where the magnet goes
 
 // Constants

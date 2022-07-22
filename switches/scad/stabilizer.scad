@@ -23,19 +23,19 @@ use <stem.scad>
 
 // These need to match what's in Void Switch.scad
 // Total travel of your switches (NOTE: All "Switch" parameters MUST match whatever values you used to generate your switches).
-TRAVEL = 4; // [1:0.1:20]
+TRAVEL = 2; // [1:0.1:20]
 // Copy setting from void_switch.scad
-BODY_MAGNET_DIAMETER = 4; // [3:1:5]
+BODY_MAGNET_DIAMETER = 3; // [3:1:5]
 // Copy setting from void_switch.scad
-BODY_MAGNET_HEIGHT = 2; // [1:0.1:3]
+BODY_MAGNET_HEIGHT = 1; // [1:0.1:3]
 // Copy setting from void_switch.scad
 MAGNET_WALL_THICKNESS = 0.5;
 // Copy setting from void_switch.scad
-COVER_THICKNESS = 0.8; // [0:0.1:1.5]
+COVER_THICKNESS = 0.5; // [0:0.1:1.5]
 // Copy setting from void_switch.scad
 PLATE_THICKNESS = 1.5; // [0:0.1:1.5]
 // Copy setting from void_switch.scad
-SHEATH_LIP_HEIGHT = 1; // [0.5:0.1:1.5]
+SHEATH_LIP_HEIGHT = 0.8; // [0.5:0.1:1.5]
 // Copy setting from void_switch.scad
 SHEATH_LENGTH = 0.3; // [0:0.1:2]
 // Copy setting from void_switch.scad
