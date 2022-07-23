@@ -238,7 +238,7 @@ module switch_body(length, width, travel, taper=1.1, wall_thickness=1.4, sheath_
               -stem_diameter/2-(top_magnet_diameter-magnet_wall_thickness*3)/2.9+stem_tolerance,
               -top_magnet_cover_thickness+droop_extra/2+sheath_length/2]) {
                 rotate([0,0,22.5]) cylinder(
-                  d=top_magnet_diameter+magnet_wall_thickness*3+sheath_tolerance*2+0.5, // For magnet + sheath holding it
+                  d=top_magnet_diameter+magnet_wall_thickness*3+sheath_tolerance*2+0.4, // For magnet + sheath holding it
                   h=top_magnet_height*2+magnet_thickness_tolerance+droop_extra+sheath_length,
                   center=true, $fn=fn);
             }

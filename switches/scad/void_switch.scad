@@ -52,7 +52,7 @@ TOTAL_TRAVEL = 2; // [1:0.1:20]
 // How much extra space (up/down) will be used to contain the stem (does not impact TOTAL_TRAVEL).  Longer == less wobble BUT the switch will be taller.  Doesn't really impact the feel of the switch otherwise.
 SHEATH_LENGTH = 0.3; // [0:0.1:2]
 // Wiggle room inside the sheath for the stem. If your stem doesn't effortlessly slide inside the sheath you need to increase the tolerance or check your printing layer height isn't messing with it.
-STEM_TOLERANCE = 0.2; // [0.01:0.01:0.3]
+STEM_TOLERANCE = 0.13; // [0.01:0.01:0.3]
 //   ^ IMPORTANT!  If the stem doesn't effortlessly slide in and out of the sheath or has far too much back-corner/front-corner wobble double-check that your printing layer height isn't messing with the tolerances: With STEM_WALL_THICKNESS=1.2 the bottom layer of the sheath where it touches the stem is precisely 1.68mm tall.  Your layer height can impact this value considerably which is why a 0.28mm layer height is recommended (for FDM) as this results in that layer being precisely 1.68mm above the bed.
 // NOTE: Also remember that YOU CAN ALWAYS SAND THE STEM IF IT'S TOO TIGHT.  As long as you get up to like 600 grit (or higher) your switch should still be nice and smooth (eventually--after some normal use).
 // NOTE: You can visualize STEM_TOLERANCE by uncommenting the "visualize" RENDER bits at the top of this file.
@@ -102,7 +102,7 @@ SHEATH_LIP_HEIGHT = 0.8; // [0.5:0.1:1.5]
 // How thick the top of the key switch body will be (directly under the keycap).  Doesn't need much.  Set to 0 for flush mount (not usually a good idea but you do you).
 COVER_THICKNESS = 0.5; // [0:0.1:1.5]
 // How much the top_cover() will overhang the switch_body() so it doesn't fall through the top of the keyboard/plate. Set to 0 for flush mount.
-COVER_OVERHANG = 0.5; // [0:0.1:1.5]
+COVER_OVERHANG = 0.6; // [0:0.1:1.5]
 // Controls the Z position of the magnet in the switch body and the sheath. Don't mess with this unless you know what you're doing.
 BODY_MAGNET_COVER_THICKNESS = 0.0; // [-1.5:0.1:1.5]
 // NOTE: THIN MAGNETS MAY NEED ADJUSTMENT TO BODY_MAGNET_COVER_THICKNESS
@@ -111,7 +111,7 @@ MAGNET_BRIDGE_DROOP = 0.2;
 // How thick bridges will be (e.g. the little lines that go under the clips in the body). They're supposed to be thin enough to "give way" (a bit) when you snap the switch into the top plate.
 CLIP_BRIDGE_THICKNESS = 0.3;
 // So we can calculate where to place the snap clips on the sides. For normal plates use 1.5mm.  For plates made out of a PCB use 1.6mm (usually).
-SWITCH_PLATE_THICKNESS = 1.5;
+SWITCH_PLATE_THICKNESS = 2;
 // How much wiggle room the switch body gets inside the hole on your keyboard's top plate/cover. Leave this alone unless your switches are too tight or too loose when snapping them into the plate.
 SWITCH_PLATE_TOLERANCE = 0.2;
 // How big the stem's cylinder will be (probably don't want to change this unless you're using 3mm or 5mm magnets).
@@ -129,7 +129,7 @@ SHEATH_WALL_THICKNESS = 1.2; // Doesn't need to be quite as thick/strong as the 
 // How much wiggle room the sheath gets as it slides into the body
 SHEATH_TOLERANCE = 0.15;
 // Wiggle room for the magnet where it gets inserted into the sheath (default: 0.1 for strong hold). NOTE: If you have problems with the sheath breaking when you insert the magnet just make this big (e.g. 0.25) and just use some glue.
-SHEATH_MAGNET_DIAMETER_TOLERANCE = 0.2;
+SHEATH_MAGNET_DIAMETER_TOLERANCE = 0.1;
 // TIP FOR RESIN PRINTERS: Resin tends to be brittle so to prevent cracking when inserting the magnet you may want to set SHEATH_MAGNET_DIAMETER_TOLERANCE to something like 0.1 and squirt some resin on the magnet after insertion to hold it in place.
 // How much the sheath lip sticks out on top of the switch body
 SHEATH_LIP_OVERHANG = 1;
@@ -535,7 +535,7 @@ for (item=RENDER) {
             cube([1,BODY_WIDTH,0.4], center=true);
         }
     } else if (item=="levitator") {
-        translate([25, 0, 0]) levitator(BODY_MAGNET_DIAMETER, BODY_MAGNET_HEIGHT, STEM_TYPE, magnet_distance=3.75, magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE, wall_thickness=0.9, thickness=1, stem_tolerance=0.15);
+        translate([25, 0, 0]) levitator(BODY_MAGNET_DIAMETER, BODY_MAGNET_HEIGHT, STEM_TYPE, magnet_distance=2.5, magnet_thickness_tolerance=MAGNET_THICKNESS_TOLERANCE, wall_thickness=0.9, thickness=1, stem_tolerance=0.15);
     }
 }
 

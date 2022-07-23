@@ -3,7 +3,7 @@
 use <utils.scad>
 
 // CONSTANTS
-SENSOR_OFFSET = [3.25,3.25]; // How far away the hall effect sensor (or reed switch) is in relation to the center of the switch (any 45° angle)
+SENSOR_OFFSET = [2,2]; // How far away the hall effect sensor (or reed switch) is in relation to the center of the switch (any 45° angle)
 
 // Cherry constants (not all used; many are here "just in case")
 CHERRY_SWITCH_LENGTH = 15.6;
@@ -168,6 +168,12 @@ cherry_cross(cross_height, y_adjust=cross_y_extra, x_adjust=cross_x_extra);
             translate([0,0,-CHERRY_CYLINDER_DIAMETER/2+flat_back_tolerance])
             // NOTE: Using flat_back_tolerance because the amount of wiggle room on the 45° angle is too much on its own
                 cube([500,500,CHERRY_CYLINDER_DIAMETER], center=true);
+
+            // Cut top of stem flat also to prevent it from hitting the magnet in sheath for smaller switches
+            if (!extra_tolerance) {
+                translate([0,0,CHERRY_CYLINDER_DIAMETER+flat_back_tolerance])
+                    cube([500,500,CHERRY_CYLINDER_DIAMETER], center=true);
+            }
         }
         // Add the magnet holder at the end
         difference() {

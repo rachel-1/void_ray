@@ -71,15 +71,15 @@ module levitator(magnet_diameter, magnet_height, stem_type, magnet_distance=3.75
 //                cube([magnet_diameter/3,magnet_diameter/3,100], center=true);
         }
         // Make an angled hole in the top that stops the magnet from coming out while also letting you push it out if needed to flip it around
-        translate([magnet_distance,magnet_distance,wall_thickness/2+(magnet_height+magnet_thickness_tolerance)-0.01])
-            cylinder(d1=magnet_diameter, d2=magnet_diameter/1.5, h=wall_thickness, center=true);
+        // translate([magnet_distance,magnet_distance,wall_thickness/2+(magnet_height+magnet_thickness_tolerance)-0.01])
+        //     cylinder(d1=magnet_diameter, d2=magnet_diameter/1.5, h=wall_thickness, center=true);
         // Cut off a few bits here and there so it can fit under more keycaps
 //        translate([magnet_distance*2+wall_thickness/1.25,magnet_distance*1.25,magnet_diameter/2])
 //            cube([magnet_diameter, magnet_diameter*2, magnet_diameter*2], center=true);
 //        translate([magnet_distance*1.25,magnet_distance*2+wall_thickness/1.25,magnet_diameter/2])
 //            cube([magnet_diameter*2, magnet_diameter, magnet_diameter*2], center=true);
-        translate([magnet_distance*1.5,magnet_distance*1.5,magnet_diameter/1.35])
-            rotate([0,-50,45])
+        translate([magnet_distance*2,magnet_distance*2,magnet_diameter/1.5])
+            rotate([0,-40,45])
                 cube([magnet_diameter, magnet_diameter*2, magnet_diameter*2], center=true);
     }
 }
