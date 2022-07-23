@@ -56,23 +56,6 @@ module cherry_cross(depth=4, tolerance=0.1, flare_base=true) {
 }
 
 module fused_cross(height=4, y_adjust=0, x_adjust=0, tolerance=0.1) {
-    translate([0,0,-0.001]) linear_extrude(height=height + 0.002) {
-        difference() {
-            union() {
-               square([CHERRY_CROSS_X_THICKNESS+x_adjust+tolerance*2, CHERRY_CROSS_LENGTH+tolerance], center=true);
-        square([CHERRY_CROSS_LENGTH+tolerance, CHERRY_CROSS_Y_THICKNESS+y_adjust+tolerance*2], center=true);
-             translate([-CHERRY_CROSS_LENGTH/2, 0, 0]) {
-            square([CHERRY_CROSS_LENGTH/2, CHERRY_CROSS_LENGTH/2]);
-        }
-        }
-        translate([-CHERRY_CROSS_LENGTH/2,-(CHERRY_CROSS_X_THICKNESS+x_adjust)/2,0]) {
-            rotate([0,0,45]) {
-                square([CHERRY_CROSS_LENGTH, CHERRY_CROSS_LENGTH/2]);
-                }
-            }
-            }
-    }
-}
 // Generates *just* the top part of the stem that goes under the keycap (mostly for making underset legends)
 // NOTE: corner_radius is ignored (but key_corner_radius is used)
 module stem_top(key_height, key_length, key_width, dish_depth, dish_thickness, top_difference, dish_tilt=0, wall_thickness=1.35, key_corner_radius=0.5, top_x=0, top_y=0, top_thickness=0.6, wall_extra=0.65, wall_inset=0, wall_tolerance=0.25, key_rotation=[0,0,0], polygon_layers=5, polygon_layer_rotation=0, polygon_curve=0,
@@ -187,7 +170,7 @@ module stem_top(key_height, key_length, key_width, dish_depth, dish_thickness, t
 /* NOTES:
     * if top_thickness > 0 then an area will be filled underneath the top of the keycap of the given thickness.  This is so legends have something they can print on/adhere to and also makes it easier to fill hollow legends with a material like wax after printing (so it doesn't just melt and drip all the way through the top of the keycap)
 */
-stem_box_cherry(14, 14, 4, 2, 2, 1);
+
 module stem_box_cherry(key_height, key_length, key_width, dish_depth, dish_thickness, top_difference, depth=4, dish_tilt=0, wall_thickness=1.35, key_corner_radius=0.5, top_x=0, top_y=0, outside_tolerance_x=0.2, outside_tolerance_y=0.2, inside_tolerance=0.25, inset=0, top_thickness=0.6, wall_extra=0.65, wall_inset=0, wall_tolerance=0.25, side_support_thickness=0.8, side_supports=[0,0,0,0], flat_support=true, support_distance=0.2, locations=[[0,0,0]], key_rotation=[0,0,0],
     polygon_layers=5, polygon_layer_rotation=0, polygon_curve=0,
     dish_tilt=0, dish_tilt_curve=false, dish_depth=1, dish_x=0, dish_y=0,
@@ -205,7 +188,7 @@ module stem_box_cherry(key_height, key_length, key_width, dish_depth, dish_thick
     color("#620093") // Purple
     rotate(key_rotation)
         if (uniform_wall_thickness) {
-            difference() {
+            /*difference() {
                 _poly_keycap(
                 // Since this is an interior cutout sort of thing we need to cut the height down slightly so there's some overlap
                     height=key_height-wall_thickness,
@@ -227,6 +210,8 @@ module stem_box_cherry(key_height, key_length, key_width, dish_depth, dish_thick
                     corner_radius_curve=corner_radius_curve,
                     polygon_rotation=polygon_rotation,
                     dish_invert=dish_invert);
+                    */
+                    /*
                 translate([0,0,-0.001]) _poly_keycap(
                     height=key_height-wall_thickness-wall_extra,
                     length=key_length-wall_thickness*2-wall_extra*2,
@@ -247,8 +232,9 @@ module stem_box_cherry(key_height, key_length, key_width, dish_depth, dish_thick
                     corner_radius_curve=corner_radius_curve,
                     polygon_rotation=polygon_rotation,
                     dish_invert=dish_invert);
-                translate([0,0,-key_height/2]) // Cut off bottom
-                    cube([key_length*2, key_width*2, key_height], center=true);
+                    */
+                //translate([0,0,-key_height/2]) // Cut off bottom
+                  //  cube([key_length*2, key_width*2, key_height], center=true);
                 if (wall_inset) {
                     translate([0,0,-key_height/2+wall_inset]) // Cut off the bottom of the walls
                         difference() {
@@ -260,7 +246,7 @@ module stem_box_cherry(key_height, key_length, key_width, dish_depth, dish_thick
                                 key_height*4], center=true);
                         }
                 }
-            }
+            //}
         } else { // Non-uniform wall thickness
             // Take the corner radius into account when generating the interior shape
             corner_radius_factor = ((key_corner_radius*corner_radius_curve/polygon_layers)*polygon_layers)/1.5;
@@ -389,8 +375,7 @@ module _stem_box_cherry(key_height, key_length, key_width, dish_depth, dish_thic
                 translate([0,0,depth/2+inset])
                     squarish_rpoly(xy=[length,width], h=depth, r=corner_radius, center=true);
                 translate([0,0,inset])
-                //cherry_cross(tolerance=inside_tolerance, flare_base=true);  
-                fused_cross(tolerance=inside_tolerance);
+                    cherry_cross(tolerance=inside_tolerance, flare_base=true);
             }
             stem_topper_height = depth;
             intersection() {
@@ -431,8 +416,7 @@ module _stem_box_cherry(key_height, key_length, key_width, dish_depth, dish_thic
                 translate([0,0,depth/2+inset])
                     squarish_rpoly(xy=[length,width], h=depth, r=corner_radius, center=true);
                 translate([0,0,inset])
-                fused_cross(tolerance=inside_tolerance);  
-                //cherry_cross(tolerance=inside_tolerance, flare_base=true);
+                    cherry_cross(tolerance=inside_tolerance, flare_base=true);
             }
             inverted_dish_adjustment = dish_invert ? (dish_depth+top_thickness) : 0;
             stem_topper_height = key_height-dish_depth-top_thickness-dish_thickness-inset-depth+dish_z+inverted_dish_adjustment;
@@ -1118,7 +1102,7 @@ module stem_support(key_height, key_length, key_width, dish_depth, dish_thicknes
                 _poly_keycap(
                     // Since this is an interior cutout sort of thing we need to cut the height down slightly so there's some overlap
                     height=key_height+inverted_dish_adjustment,
-                    length=key_length-wall_thickness*2-wall_extra*2,
+                    length=key_length-wall_thickness*2-wall_extra*2+3,
                     width=key_width-wall_thickness*2-wall_extra*2,
                     wall_thickness=wall_thickness,
                     top_difference=top_difference, dish_tilt=dish_tilt,
@@ -1242,6 +1226,7 @@ module stem_support(key_height, key_length, key_width, dish_depth, dish_thicknes
         }
     }
 }
+
 // For testing:
 //key_height = 8;
 //key_length = 18;

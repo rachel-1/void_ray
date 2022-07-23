@@ -25,6 +25,7 @@ module _poly_keycap(height=9.0, length=18, width=18,
     reduction_factor = dish_tilt_curve ? 2.25 : 2.35;
     height_adjust = ((abs(width * sin(dish_tilt)) + abs(height * cos(dish_tilt))) - height)/polygon_layers/reduction_factor;
     difference() {
+        hull() {
         for (l=[0:polygon_layers-1]) {
             layer_height_adjust_below = (height_adjust*l);
             layer_height_adjust_above = (height_adjust*(l+1));
@@ -42,50 +43,9 @@ module _poly_keycap(height=9.0, length=18, width=18,
             reduction_factor_above = polygon_slice(l+1, polygon_curve, total_steps=polygon_layers);
             curve_val_below = (top_difference - reduction_factor_below) * (l/polygon_layers);
             curve_val_above = (top_difference - reduction_factor_above) * ((l+1)/polygon_layers);
-            if (polygon_rotation) {
-                hull() {
-                    rotate([tilt_below_curved,0,polygon_layer_rotation*l]) {
-                        translate([
-                          layer_x_adjust*l,
-                          layer_y_adjust*l,
-                          l_height*l-layer_height_adjust_below])
-                            rotate([tilt_below_straight,0,0]) {
-                                if (polygon_edges==4) { // Normal key
-                                    xy = [length-curve_val_below,width-curve_val_below];
-                                    squarish_rpoly(xy=xy, h=0.01, r=corner_radius_below, center=false, $fn=dish_corner_fn);
-                                } else { // We're doing something funky!
-                                    rpoly(
-                                        d=length-curve_val_below,
-                                        h=0.01, r=corner_radius_below,
-                                        edges=polygon_edges, center=false,
-                                        $fn=dish_corner_fn);
-                                }
-                            }
-                    }
-                    rotate([tilt_above_curved,0,polygon_layer_rotation*(l+1)]) {
-                        translate([
-                          layer_x_adjust*(l+1),
-                          layer_y_adjust*(l+1),
-                          l_height*(l+1)-layer_height_adjust_above]) 
-                            rotate([tilt_above_straight,0,0]) {
-                                if (polygon_edges==4) { // Normal key
-                                    xy = [length-curve_val_above,width-curve_val_above];
-                                    squarish_rpoly(
-                                        xy=xy, h=0.01, r=corner_radius_above,
-                                        center=false, $fn=dish_corner_fn);
-                                } else { // We're doing something funky!
-                                    rpoly(
-                                        d=length-curve_val_above,
-                                        h=0.01, r=corner_radius_above,
-                                        edges=polygon_edges, center=false,
-                                        $fn=dish_corner_fn);
-                                }
-                            }
-                    }
-                }
-            } else {
                 if (is_odd(l)) {
-                    hull() {
+                    //hull() {
+                    /*
                         rotate([tilt_below_curved,0,polygon_layer_rotation*l]) {
                             translate([
                               layer_x_adjust*l,
@@ -97,12 +57,6 @@ module _poly_keycap(height=9.0, length=18, width=18,
                                         squarish_rpoly(
                                             xy=xy, h=0.01,
                                             r=corner_radius_below, center=false,
-                                            $fn=dish_corner_fn);
-                                    } else { // We're doing something funky!
-                                        rpoly(
-                                            d=length-curve_val_below,
-                                            h=0.01, r=corner_radius_below,
-                                            edges=polygon_edges, center=false,
                                             $fn=dish_corner_fn);
                                     }
                                 }
@@ -127,10 +81,10 @@ module _poly_keycap(height=9.0, length=18, width=18,
                                             $fn=dish_corner_fn);
                                     }
                                 }
-                        }
-                    }
+                        }*/
+                    //}
                 } else { // Even-numbered polygon layer
-                    hull() {
+                    //hull() {
                         if (l == 0) { // First layer
                             rotate([
                               tilt_below_curved,
@@ -176,6 +130,7 @@ module _poly_keycap(height=9.0, length=18, width=18,
                                     }
                             }
                         }
+                        
                         rotate([tilt_above_curved,0,polygon_layer_rotation*(l+1)]) {
                             translate([
                               layer_x_adjust*(l+1),
@@ -197,116 +152,7 @@ module _poly_keycap(height=9.0, length=18, width=18,
                                     }
                                 }
                         }
-                    }
-                }
-            }
-            if (dish_depth != 0 && l == polygon_layers-1 && dish_invert) {
-                // Last layer; do the inverted dish if needed
-                rotate([tilt_above_curved,0,polygon_layer_rotation*(l+1)])
-                  translate([top_x,top_y,height-layer_height_adjust_above])
-                    rotate([tilt_above_straight,0,0]) {
-                    if (dish_type == "sphere") {
-                        hull() {
-                            if (polygon_edges==4) { // Normal key
-                                xy = [
-                                    length-curve_val_above-top_difference,
-                                    width-curve_val_above-top_difference];
-                                squarish_rpoly(
-                                    xy=xy, h=0.1,
-                                    r=corner_radius_above, center=false,
-                                    $fn=dish_corner_fn);
-                            } else { // We're doing something funky!
-                                rpoly(
-                                    d=length-curve_val_above-top_difference,
-                                    h=0.05, r=corner_radius_above,
-                                    edges=polygon_edges, center=false,
-                                    $fn=dish_corner_fn);
-                            }
-                            depth_step = dish_depth/polygon_layers;
-                            depth_curve_factor = -dish_depth*4; // For this we use a fixed curve
-                            amplitude = 1; // Sine wave amplitude
-                            // To keep things simple we'll use the same number of polygon_layers from the main keycap:
-                            for (bend_layer=[0:polygon_layers-1]) {
-                                ratio = sin(bend_layer/(polygon_layers*2)*180) * amplitude;
-                                depth_reduction_factor = polygon_slice(
-                                    bend_layer, depth_curve_factor, total_steps=polygon_layers);
-                                depth_curve_val = (depth_step - depth_reduction_factor) * (bend_layer/polygon_layers);
-                                adjusted_length = length - top_difference;
-                                adjusted_width = width - top_difference;
-                                layer_length = adjusted_length-(adjusted_length*ratio/dish_division_x);
-                                layer_width = adjusted_width-(adjusted_width*ratio/dish_division_y);
-                                layer_height = dish_depth*ratio;
-                                translate([
-                                    0,
-                                    0,
-                                    depth_curve_val]) {
-                                    if (polygon_edges==4) { // Normal key
-                                        xy = [layer_length,layer_width];
-                                        squarish_rpoly(
-                                            xy=xy, h=0.01,
-                                            r=corner_radius_above*(1-ratio), center=false,
-                                            $fn=dish_corner_fn);
-                                    } else { // We're doing something funky!
-                                        rpoly(
-                                            d=layer_length, h=0.01,
-                                            r=corner_radius_above,
-                                            edges=polygon_edges, center=false,
-                                            $fn=dish_corner_fn);
-                                    }
-                                }
-                            }
-                        }
-                    } else if (dish_type == "cylinder") {
-                        hull() {
-                            if (polygon_edges==4) { // Normal key
-                                xy = [length-curve_val_above-top_difference,width-curve_val_above-top_difference];
-                                squarish_rpoly(
-                                    xy=xy, h=0.1,
-                                    r=corner_radius_above, center=false,
-                                    $fn=dish_corner_fn);
-                            } else { // We're doing something funky!
-                                rpoly(
-                                    d=length-curve_val_above-top_difference, h=0.1,
-                                    r=corner_radius_above, edges=polygon_edges,
-                                    center=false, $fn=dish_corner_fn);
-                            }
-                            depth_step = dish_depth/polygon_layers;
-                            depth_curve_factor = -dish_depth*4; // For this we use a fixed curve
-                            amplitude = 1; // Sine wave amplitude
-                            // To keep things simple we'll use the same number of polygon_layers from the main keycap:
-                            for (bend_layer=[0:polygon_layers-1]) {
-                                ratio = sin(bend_layer/(polygon_layers*1.5)*180) * amplitude;
-                                depth_reduction_factor = polygon_slice(
-                                    bend_layer, depth_curve_factor, total_steps=polygon_layers);
-                                depth_curve_val = (depth_step - depth_reduction_factor) * (bend_layer/polygon_layers);
-                                adjusted_length = length - top_difference;
-                                adjusted_width = width - top_difference;
-                                layer_length = adjusted_length-(adjusted_length*ratio/30);
-                                layer_width = adjusted_width-(adjusted_width*ratio);
-                                layer_height = dish_depth*ratio;
-                                translate([
-                                    0,
-                                    0,
-                                    depth_curve_val]) {
-                                    if (polygon_edges==4) { // Normal key
-                                        xy = [layer_length,layer_width];
-                                        squarish_rpoly(
-                                            xy=xy, h=0.01,
-                                            r=corner_radius_above*(1-ratio), center=false,
-                                            $fn=dish_corner_fn);
-                                    } else { // We're doing something funky!
-                                        rpoly(
-                                            d=layer_length, h=0.01,
-                                            r=corner_radius_above,
-                                            edges=polygon_edges, center=false,
-                                            $fn=dish_corner_fn);
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        warning("inv_pyramid not supported for DISH_INVERT (dish_invert) yet");
-                    }
+                    //}
                 }
             }
         }
@@ -352,7 +198,7 @@ module _poly_keycap(height=9.0, length=18, width=18,
                         rotate([tilt_above_straight,0,0])
                             sphere(r=rad*2, $fn=dish_fn);
             }
-        }
+        }    
     }
 }
 

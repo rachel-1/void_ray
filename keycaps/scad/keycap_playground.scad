@@ -36,7 +36,7 @@ $fn = 32; // Mostly only applies to legends/fonts but increase as needed for gre
 // Pick what you want to render (you can put a '%' in front of the name to make it transparent)
 RENDER = ["keycap", "stem"]; // Supported values: keycap, stem, legends, row, row_stems, row_legends, custom
 //RENDER = ["%keycap", "stem"]; // Can be useful for visualizing the stem inside the keycap
-//RENDER = ["keycap"];
+//RENDER = ["keycap"];                                          
 //RENDER = ["legends"];
 //RENDER = ["legends", "stem"];
 //RENDER = ["stem"];
@@ -53,12 +53,12 @@ RENDER = ["keycap", "stem"]; // Supported values: keycap, stem, legends, row, ro
 VISUALIZE_LEGENDS = false; // Set to true to have the legends appear via %
 
 // CONSTANTS
-KEY_UNIT = 13; // Square that makes up the entire space of a key
+KEY_UNIT = 13.5; // Square that makes up the entire space of a key
 BETWEENSPACE = 0.8; // The Betweenspace:  The void between realms...  And keycaps (for an 18.25mm keycap)
 
 // BASIC KEYCAP PARAMETERS
 // If you want to make a keycap using a common profile set this to one of: dcs, dss, dsa, kat, kam, riskeycap, gem:
-KEY_PROFILE = ""; // Any value other than a supported profile (e.g. "dsa") will use the globals specified below.  In other words, an empty KEY_PROFILE means "just use the values specified here in this file."
+KEY_PROFILE = "riskeycap"; // Any value other than a supported profile (e.g. "dsa") will use the globals specified below.  In other words, an empty KEY_PROFILE means "just use the values specified here in this file."
 KEY_ROW = 1; // NOTE: For a spacebar make sure you also set DISH_INVERT=true
 // Some settings override profile settings but most will be ignored (if using a profile)
 KEY_HEIGHT = 9; // The Z (NOTE: Dish values may reduce this a bit as they carve themselves out)
@@ -73,7 +73,7 @@ KEY_WIDTH = (KEY_UNIT*1-BETWEENSPACE); // The Y (NOTE: If using POLYGON_EGDES>4 
 KEY_ROTATION = [0,110.1,90]; // An example of how you'd rotate a keycap on its side.  Make sure to zoom in on the bottom to make sure it's *actually* going to print flat! This should be the correct rotation for riskeycap profile.  For GEM use:
 //KEY_ROTATION = [0,108.6,90];
 // NOTE: If you rotate a keycap to print on its side don't forget to add a built-in support via STEM_SIDE_SUPPORTS! [0,1,0,0] is what you want if you rotated to print on the right side.
-KEY_TOP_DIFFERENCE = 1; // 5 How much skinnier the key is at the top VS the bottom [x,y]
+KEY_TOP_DIFFERENCE = 5; // How much skinnier the key is at the top VS the bottom [x,y]
 KEY_TOP_X = 0; // Move the keycap's top on the X axis (controls skew left/right)
 KEY_TOP_Y = 0; // Move the keycap's top on the Y axis (controls skew forward/backward)
 WALL_THICKNESS = 0.45*2.25; // Default: 0.45 extrusion width * 2.25 (nice and thick; feels/sounds good). NOTE: STEM_SIDES_WALL_THICKNESS gets added to this.
@@ -81,9 +81,9 @@ UNIFORM_WALL_THICKNESS = true; // Much more expensive rendering but the material
 // NOTE: UNIFORM_WALL_THICKNESS uses WALL_THICKNESS instead of DISH_THICKNESS. So DISH_THICKNESS will be ignored if you enable this option.
 
 // DO THE DISHES!
-DISH_X = -0.5; // Move the dish left/right
+DISH_X = 0; // Move the dish left/right
 DISH_Y = 0; // Move the dish forward/backward
-DISH_Z = -0.25; // Controls how deep into the top of the keycap the dish goes (e.g. -0.25)
+DISH_Z = 0; // Controls how deep into the top of the keycap the dish goes (e.g. -0.25)
 DISH_TYPE = "sphere"; // "inv_pyramid", "cylinder", "sphere" (aka "domed"), anything else: flat top
 // NOTE: inv_pyramid doesn't work for making spacbars (kinda, "duh")
 DISH_DEPTH = 1; // Distance between the top sides and the bottommost point in the dish (set to 0 for flat top)
@@ -91,7 +91,7 @@ DISH_DEPTH = 1; // Distance between the top sides and the bottommost point in th
 DISH_THICKNESS = 0.6; // Amount of material that will be placed under the bottommost part of the dish (Note: only used if UNIFORM_WALL_THICKNESS is false)
 // NOTE: If you make DISH_THICKNESS too small legends might not print properly--even with a tiny nozzle.  In other words, a thick keycap top makes for nice clean (3D printed) legends.
 // NOTE: Also, if you're printing white keycaps with transparent legends you want a thick dish (1.2+) to darken the non-transparent parts of the keycap
-DISH_TILT = 10; // How to rotate() the dish of the key (on the Y axis)
+DISH_TILT = 0; // How to rotate() the dish of the key (on the Y axis)
 DISH_TILT_CURVE = true; // If you want a more organic ("tentacle"!) shape set this to true
 DISH_INVERT = false; // Set to true for things like spacebars
 // These two settings only apply to inverted spherical dishes and let you control how wide the X and Y curves will be (you'll have to play around with them to figure out what they do--it's too hard to describe here haha)
@@ -117,7 +117,7 @@ CORNER_RADIUS_CURVE = 3; // If you want the corner radius to get bigger as it go
 // STEM STUFF
 STEM_TYPE = "box_cherry"; // "box_cherry" (default), "round_cherry" (harder to print and not as strong), "alps"
 STEM_HOLLOW = false; // Only applies to Alps: Whether or not the inside is hollow
-STEM_HEIGHT = 4; // How far into the keycap's stem the switch's stem can go (4 is "normal keycap")
+STEM_HEIGHT = 3; // How far into the keycap's stem the switch's stem can go (4 is "normal keycap")
 // NOTE: For Alps you typically want STEM_HEIGHT=3.5 (slightly shorter)
 STEM_TOP_THICKNESS = 0.5; // The part that resides under the keycap, connecting stems and keycap together (Note: Only used if UNIFORM_WALL_THICKNESS is false)
 // TIP: Increase STEM_TOP_THICKNESS when generating underset masks; makes them easier to use as a modifier in your slicer.
@@ -136,7 +136,7 @@ STEM_INSET = 1; // How far to inset the stem (set to 0 to have the stem rest on 
 STEM_FLAT_SUPPORT = false; // Add built-in support for the stem when printing flat (if inset)
 STEM_SIDE_SUPPORT_THICKNESS = 1; // 1 works well for most things
 // This controls which sides get (internal, under-the-top) stem supports (for printing on the side):
-STEM_SIDE_SUPPORTS = [0,1,0,0]; // Left, right, front, back
+STEM_SIDE_SUPPORTS = [0,0,0,0]; // Left, right, front, back
 // NOTE: You can only enable left/right supports *or* front/back supports.  Not both at the same time. (TODO: Fix that...  Maybe?  Why would you ever need *both* say, a left support *and* a top support at the same time?)
 STEM_SUPPORT_DISTANCE = 0.2; // Controls the air gap between the stem and its support
 // NOTE: If printing with a small nozzle like 0.25mm you might want to set the support distance to 0 to prevent "misses".
@@ -155,11 +155,11 @@ STEM_WALLS_INSET = 0; // Makes it so the stem walls don't go all the way to the 
 STEM_WALLS_TOLERANCE = 0.0; // How much wiggle room the stem sides will get inside the keycap (0.2 is good for snap-fit stems)
 
 // If you want "homing dots" for home row keys:
-HOMING_DOT_LENGTH = 0; // Set to something like "3" for a good, easy-to-feel "dot"
+HOMING_DOT_LENGTH = 3; // Set to something like "3" for a good, easy-to-feel "dot"
 HOMING_DOT_WIDTH = 1; // Default: 1
 HOMING_DOT_X = 0; // 0 == Center
-HOMING_DOT_Y = -KEY_WIDTH/4; // Default: Move it down towards the front a bit
-HOMING_DOT_Z = -0.35; // 0 == Right at KEY_HEIGHT (dish type makes a big difference here)
+HOMING_DOT_Y = -KEY_WIDTH * 0.3; // Default: Move it down towards the front a bit
+HOMING_DOT_Z = 0; // 0 == Right at KEY_HEIGHT (dish type makes a big difference here)
 // NOTE: ADA specifies 0.5mm as the ideal braille dot height so that's what I recommend for homing dots too!  Though, 0.3mm seems to be reasonably "feelable" in my testing.  Experiment!
 
 // LEGENDARY!
@@ -176,7 +176,8 @@ LEGEND_FONTS = [ // Each legend can use its own font. If not specified the first
     // Favorite fonts for legends: Roboto, Aharoni, Ubuntu, Cabin, Noto, Code2000, Franklin Gothic Medium
 ]; // Tip: "Noto" and "Code2000" have nearly every emoji/special/funky unicode chars
 LEGEND_FONT_SIZES = [ // Each legend can have its own font size
-    6, // Position/index must match the index in LEGENDS (this is the first legend)
+    5.5, // Position/index must match the index in LEGENDS (this is the first legend)
+    4, // Second legend...  etc
 ];
 LEGEND_CARVED = false; // Makes it so the bottom of the legend matches the shape of the dish (in case you want to translate() it up to the top of the keycap to finely control its depth).  Slows down rendering quite a bit so unless you have a specific need you'd best keep it set to false.
 /* NOTES ABOUT LEGEND TRANSLATION AND ROTATION
@@ -186,7 +187,7 @@ LEGEND_CARVED = false; // Makes it so the bottom of the legend matches the shape
     * LEGEND_TRANS2 is probably unnecessary but may make a few folks lives easier by not having to think as much :)
 */
 LEGEND_TRANS = [ // You can translate() legends around however you like.
-    [-0.05,0,0], // A good default (FYI: -0.1-0.15mm works around OpenSCAD's often-broken font centering)
+    [-0.1,0,0], // A good default (FYI: -0.1-0.15mm works around OpenSCAD's often-broken font centering)
     [4.15,3,1],
     [4.40,KEY_TOP_Y+2.25,0], // Top right (mostly)
 ];

@@ -1008,10 +1008,10 @@ module KAM_stem(stem_type="box_cherry", key_height=9.05, key_length=18.3, key_wi
     * Sides are flat so that it can be easily printed on its side.  This ensures that stems end up strong and the top will feel smooth right off the printer (no sanding required).
     * Stem is not inset so it can be printed flat if needed.
 */
-module riskeycap(row=1, length=18.25, width=18.25, height_extra=0, wall_thickness=1.8, dish_thickness=0.9, dish_fn=128, dish_corner_fn=64, dish_depth=1.5, dish_invert=false, stem_clips=false, stem_walls_inset=0, stem_walls_tolerance=0.25, top_difference=6, key_rotation=[0,0,0], corner_radius=0.5, corner_radius_curve=0.75, legends=[""], legend_font_sizes=[6], legend_fonts=["Roboto"], legend_trans=[[0,0,0]], legend_trans2=[[0,0,0]], legend_rotation=[[0,0,0]], legend_rotation2=[[0,0,0]], legend_scale=[[0,0,0]], legend_underset=[[0,0,0]], legend_carved=false, homing_dot_length=0, homing_dot_width=0, homing_dot_x=0, homing_dot_y=0, homing_dot_z=0, polygon_layers=10, visualize_legends=false, debug=false, uniform_wall_thickness=false) {
+module riskeycap(row=1, length=18.25, width=18.25, height_extra=0, wall_thickness=1.8, dish_thickness=0.9, dish_fn=128, dish_corner_fn=64, dish_depth=1.5, dish_invert=false, stem_clips=false, stem_walls_inset=0, stem_walls_tolerance=0.25, top_difference=3, key_rotation=[0,0,0], corner_radius=0.5, corner_radius_curve=0.75, legends=[""], legend_font_sizes=[6], legend_fonts=["Roboto"], legend_trans=[[0,0,0]], legend_trans2=[[0,0,0]], legend_rotation=[[0,0,0]], legend_rotation2=[[0,0,0]], legend_scale=[[0,0,0]], legend_underset=[[0,0,0]], legend_carved=false, homing_dot_length=0, homing_dot_width=0, homing_dot_x=0, homing_dot_y=0, homing_dot_z=0, polygon_layers=10, visualize_legends=false, debug=false, uniform_wall_thickness=false) {
     // The height needs a smidge of adjustment based on the length of the keycap
     adjusted_height_extra = length < KEY_UNIT*1.25 ? height_extra : height_extra+0.35;
-    adjusted_height = dish_invert ? 6.5+adjusted_height_extra : 8.2+adjusted_height_extra; // A bit less if we're generating a spacebar because the dish_depth is bigger than is typical
+    adjusted_height = dish_invert ? 6+adjusted_height_extra : 7+adjusted_height_extra; // A bit less if we're generating a spacebar because the dish_depth is bigger than is typical
     adjusted_dish_depth = dish_invert ? 1 : dish_depth; // Make it a smaller for inverted dishes
     if (row < 1) {
         warning("We only support rows 1 for Riskeycap profile caps!");
@@ -1048,7 +1048,7 @@ module riskeycap(row=1, length=18.25, width=18.25, height_extra=0, wall_thicknes
 module riskeystem(stem_type="box_cherry", key_height=8.2, key_length=18.25, key_width=18.25, height_extra=0, dish_type="sphere", dish_depth=1.5, dish_thickness=0.9, dish_fn=128, dish_corner_fn=64, dish_x=0, dish_y=0, dish_z=0, dish_invert=false, depth=4, top_difference=6, wall_thickness=1.8, wall_extra=0.65, wall_inset=0, wall_tolerance=0.25, corner_radius=0.5, key_corner_radius=0.5, corner_radius_curve=0.75, top_x=0, top_y=0, outside_tolerance_x=0.2, outside_tolerance_y=0.2, inside_tolerance=0.25, inset=1, top_thickness=0.6, side_support_thickness=0.8, side_supports=[0,0,0,0], flat_support=true, locations=[[0,0,0]], polygon_layers=10, polygon_layer_rotation=0, polygon_edges=4, polygon_curve=0, key_rotation=[0,0,0], hollow=false, uniform_wall_thickness=false) {
     // The height needs a smidge of adjustment based on the length of the keycap
     adjusted_height_extra = key_length < KEY_UNIT*1.25 ? height_extra : height_extra+0.35;
-    adjusted_height = dish_invert ? 6.5+adjusted_height_extra : 8.2+adjusted_height_extra; // A bit less if we're generating a spacebar because the dish_depth is bigger than is typical
+    adjusted_height = dish_invert ? 6 +adjusted_height_extra : 7+adjusted_height_extra; // A bit less if we're generating a spacebar because the dish_depth is bigger than is typical
     adjusted_dish_depth = dish_invert ? 1 : dish_depth; // Make it a smaller for inverted dishes
     if (stem_type == "box_cherry") {
         stem_box_cherry(
