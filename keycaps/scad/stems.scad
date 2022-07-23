@@ -55,7 +55,6 @@ module cherry_cross(depth=4, tolerance=0.1, flare_base=true) {
     }
 }
 
-module fused_cross(height=4, y_adjust=0, x_adjust=0, tolerance=0.1) {
 // Generates *just* the top part of the stem that goes under the keycap (mostly for making underset legends)
 // NOTE: corner_radius is ignored (but key_corner_radius is used)
 module stem_top(key_height, key_length, key_width, dish_depth, dish_thickness, top_difference, dish_tilt=0, wall_thickness=1.35, key_corner_radius=0.5, top_x=0, top_y=0, top_thickness=0.6, wall_extra=0.65, wall_inset=0, wall_tolerance=0.25, key_rotation=[0,0,0], polygon_layers=5, polygon_layer_rotation=0, polygon_curve=0,
