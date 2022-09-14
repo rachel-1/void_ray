@@ -22,7 +22,7 @@ color_init()
 # Our own stuff
 from keycap import Keycap
 
-KEY_UNIT = 19.05 # Square that makes up the entire space of a key
+KEY_UNIT = 13.5 # Square that makes up the entire space of a key
 BETWEENSPACE = 0.8 # Space between keycaps
 
 class riskeyboard70_base(Keycap):
@@ -31,8 +31,10 @@ class riskeyboard70_base(Keycap):
     """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.key_profile = "gem"
+        self.key_profile = "riskeycap"
         self.key_rotation = [0,108.6,90]
+        self.key_length = 13.5
+        self.key_width = 13.5
         self.wall_thickness = 0.45*2.25
         self.uniform_wall_thickness = True
         self.dish_thickness = 1.0 # Note: Not actually used
@@ -667,6 +669,7 @@ if __name__ == "__main__":
                             + Style.RESET_ALL)
                         print(keycap)
                         retcode, output = getstatusoutput(str(keycap))
+                        print(output)
                         if retcode == 0: # Success!
                             print(
                                 f"{args.out}/{keycap.name}.stl "
@@ -707,6 +710,7 @@ if __name__ == "__main__":
             retcode, output = getstatusoutput(str(keycap))
             if retcode == 0: # Success!
                 print(f"{args.out}/{keycap.name}.stl rendered successfully")
+            print(output)
         # Next render the legends (for multi-material, non-transparent legends)
         if args.legends:
             for legend in KEYCAPS:

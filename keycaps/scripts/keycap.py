@@ -67,11 +67,11 @@ class Keycap(object):
             key_length=KEY_UNIT-BETWEENSPACE,
             key_width=KEY_UNIT-BETWEENSPACE,
             key_rotation=[0,0,0],
-            key_height=8,
+            key_height=9,
             key_top_difference=5,
-            wall_thickness=0.45*2.5,
+            wall_thickness=0.45*2.25,
             dish_thickness=1.0,
-            dish_type="cylinder",
+            dish_type="sphere",
             dish_depth=1,
             dish_invert=False,
             dish_tilt=0,
@@ -93,10 +93,10 @@ class Keycap(object):
             stem_outside_tolerance_y=0.05,
             stem_side_supports=[0,0,0,0],
             stem_locations=[[0,0,0]],
-            stem_sides_wall_thickness=0.65,
+            stem_sides_wall_thickness=0.5,
             stem_snap_fit=False,
-            stem_walls_inset=1.05,
-            stem_walls_tolerance=0.2,
+            stem_walls_inset=0,
+            stem_walls_tolerance=0,
             homing_dot_length=0, # 0 means no "dot"
             homing_dot_width=1,
             homing_dot_x=0,
@@ -109,7 +109,7 @@ class Keycap(object):
             scale=[[1,1,1]], underset=[[0,0,0]],
             legend_carved=False,
             keycap_playground_path=Path("."),
-            openscad_path=Path("/usr/bin/openscad"),
+            openscad_path=Path('"C:\Program Files\OpenSCAD\openscad.exe"'),
             output_path=Path(".")):
         self.name = name
         self.output_path = output_path
@@ -208,6 +208,9 @@ class Keycap(object):
         scale: {self.scale}
         underset: {self.underset}"""
 
+    def str_fmt(self, var):
+        return json.dumps(var).replace('"', '\\"')
+    
     def __str__(self):
         """
         Returns the OpenSCAD command line to use to generate this keycap.
@@ -215,60 +218,60 @@ class Keycap(object):
         # NOTE: Since OpenSCAD requires double quotes I'm using the json module
         #       to encode things that need it:
         return (
-            f"{self.openscad_path} --enable=fast-csg -o "
-            f"'{self.output_path}'/'{self.name}.stl' -D $'"
-            f"RENDER={json.dumps(self.render)}; "
-            f"KEY_PROFILE={json.dumps(self.key_profile)}; "
-            f"KEY_LENGTH={round(self.key_length,2)}; "
-            f"KEY_WIDTH={round(self.key_width,2)}; "
-            f"KEY_TOP_DIFFERENCE={self.key_top_difference}; "
-            f"KEY_ROTATION={self.key_rotation}; "
-            f"KEY_HEIGHT={self.key_height}; "
-            f"WALL_THICKNESS={self.wall_thickness}; "
-            f"UNIFORM_WALL_THICKNESS={json.dumps(self.uniform_wall_thickness)}; "
-            f"DISH_THICKNESS={self.dish_thickness}; "
-            f"DISH_INVERT={json.dumps(self.dish_invert)}; "
-            f"DISH_TYPE={json.dumps(self.dish_type)}; "
-            f"DISH_DEPTH={self.dish_depth}; "
-            f"DISH_TILT={self.dish_tilt}; "
-            f"DISH_TILT_CURVE={json.dumps(self.dish_tilt_curve)}; "
-            f"DISH_FN={self.dish_fn}; "
-            f"DISH_CORNER_FN={self.dish_corner_fn}; "
-            f"POLYGON_LAYERS={self.polygon_layers}; "
-            f"POLYGON_LAYER_ROTATION={json.dumps(self.polygon_layer_rotation)}; "
-            f"POLYGON_EDGES={self.polygon_edges}; "
-            f"POLYGON_ROTATION={json.dumps(self.polygon_rotation)}; "
-            f"CORNER_RADIUS={self.corner_radius}; "
-            f"CORNER_RADIUS_CURVE={json.dumps(self.corner_radius_curve)}; "
-            f"STEM_TYPE={json.dumps(self.stem_type)}; "
-            f"STEM_TOP_THICKNESS={self.stem_top_thickness}; "
-            f"STEM_INSET={self.stem_inset}; "
-            f"STEM_INSIDE_TOLERANCE={self.stem_inside_tolerance}; "
-            f"STEM_OUTSIDE_TOLERANCE_X={self.stem_outside_tolerance_x}; "
-            f"STEM_OUTSIDE_TOLERANCE_Y={self.stem_outside_tolerance_y}; "
-            f"STEM_SIDE_SUPPORTS={self.stem_side_supports}; "
-            f"STEM_SIDES_WALL_THICKNESS={self.stem_sides_wall_thickness}; "
-            f"STEM_LOCATIONS={self.stem_locations}; "
-            f"STEM_SNAP_FIT={json.dumps(self.stem_snap_fit)}; "
-            f"STEM_WALLS_INSET={self.stem_walls_inset}; "
-            f"STEM_WALLS_TOLERANCE={self.stem_walls_tolerance}; "
-            f"HOMING_DOT_LENGTH={self.homing_dot_length}; "
-            f"HOMING_DOT_WIDTH={self.homing_dot_width}; "
-            f"HOMING_DOT_X={self.homing_dot_x}; "
-            f"HOMING_DOT_Y={self.homing_dot_y}; "
-            f"HOMING_DOT_Z={self.homing_dot_z}; "
-            f"LEGENDS={self.quote(self.legends)}; "
-            f"LEGEND_FONTS={json.dumps(self.fonts)}; "
-            f"LEGEND_FONT_SIZES={self.font_sizes}; "
-            f"LEGEND_TRANS={self.trans}; "
-            f"LEGEND_TRANS2={self.trans2}; "
-            f"LEGEND_ROTATION={self.rotation}; "
-            f"LEGEND_ROTATION2={self.rotation2}; "
-            f"LEGEND_SCALE={self.scale}; "
-            f"LEGEND_UNDERSET={self.underset}; "
-# NOTE: For some reason I have to duplicate RENDER here for it to work properly:
-            f"RENDER={json.dumps(self.render)};' "
-            f"keycap_playground.scad"
+            f"{self.openscad_path} -o "#--enable=fast-csg -o "
+            f"{self.output_path}\{self.name}.stl "
+            f'-D RENDER="{self.str_fmt(self.render)}" '
+            f'-D KEY_PROFILE="{self.str_fmt(self.key_profile)}" '
+            f'-D KEY_LENGTH="{round(self.key_length,2)}" '
+            f'-D KEY_WIDTH="{round(self.key_width,2)}" '
+            f'-D KEY_TOP_DIFFERENCE="{self.key_top_difference}" '
+            f'-D KEY_ROTATION="{self.key_rotation}" '
+            f'-D KEY_HEIGHT="{self.key_height}" '
+            f'-D WALL_THICKNESS="{self.wall_thickness}" '
+            f'-D UNIFORM_WALL_THICKNESS="{self.str_fmt(self.uniform_wall_thickness)}" '
+            f'-D DISH_THICKNESS="{self.dish_thickness}" '
+            f'-D DISH_INVERT="{self.str_fmt(self.dish_invert)}" '
+            f'-D DISH_TYPE="{self.str_fmt(self.dish_type)}" '
+            f'-D DISH_DEPTH="{self.dish_depth}" '
+            f'-D DISH_TILT="{self.dish_tilt}" '
+            f'-D DISH_TILT_CURVE="{self.str_fmt(self.dish_tilt_curve)}" '
+            f'-D DISH_FN="{self.dish_fn}" '
+            f'-D DISH_CORNER_FN="{self.dish_corner_fn}" '
+            f'-D POLYGON_LAYERS="{self.polygon_layers}" '
+            f'-D POLYGON_LAYER_ROTATION="{self.str_fmt(self.polygon_layer_rotation)}" '
+            f'-D POLYGON_EDGES="{self.polygon_edges}" '
+            f'-D POLYGON_ROTATION="{self.str_fmt(self.polygon_rotation)}" '
+            f'-D CORNER_RADIUS="{self.corner_radius}" '
+            f'-D CORNER_RADIUS_CURVE="{self.str_fmt(self.corner_radius_curve)}" '
+            f'-D STEM_TYPE="{self.str_fmt(self.stem_type)}" '
+            f'-D STEM_TOP_THICKNESS="{self.stem_top_thickness}" '
+            f'-D STEM_INSET="{self.stem_inset}" '
+            f'-D STEM_INSIDE_TOLERANCE="{self.stem_inside_tolerance}" '
+            f'-D STEM_OUTSIDE_TOLERANCE_X="{self.stem_outside_tolerance_x}" '
+            f'-D STEM_OUTSIDE_TOLERANCE_Y="{self.stem_outside_tolerance_y}" '
+            f'-D STEM_SIDE_SUPPORTS="{self.stem_side_supports}" '
+            f'-D STEM_SIDES_WALL_THICKNESS="{self.stem_sides_wall_thickness}" '
+            f'-D STEM_LOCATIONS="{self.stem_locations}" '
+            f'-D STEM_SNAP_FIT="{self.str_fmt(self.stem_snap_fit)}" '
+            f'-D STEM_WALLS_INSET="{self.stem_walls_inset}" '
+            f'-D STEM_WALLS_TOLERANCE="{self.stem_walls_tolerance}" '
+            f'-D HOMING_DOT_LENGTH="{self.homing_dot_length}" '
+            f'-D HOMING_DOT_WIDTH="{self.homing_dot_width}" '
+            f'-D HOMING_DOT_X="{self.homing_dot_x}" '
+            f'-D HOMING_DOT_Y="{self.homing_dot_y}" '
+            f'-D HOMING_DOT_Z="{self.homing_dot_z}" '
+            f'-D LEGENDS="{self.quote(self.legends)}" '
+            f'-D LEGEND_FONTS="{self.str_fmt(self.fonts)}" '
+            f'-D LEGEND_FONT_SIZES="{self.font_sizes}" '
+            f'-D LEGEND_TRANS="{self.trans}" '
+            f'-D LEGEND_TRANS2="{self.trans2}" '
+            f'-D LEGEND_ROTATION="{self.rotation}" '
+            f'-D LEGEND_ROTATION2="{self.rotation2}" '
+            f'-D LEGEND_SCALE="{self.scale}" '
+            f'-D LEGEND_UNDERSET="{self.underset}" '
+            # NOTE: For some reason I have to duplicate RENDER here for it to work properly:
+            f'-D RENDER="{self.str_fmt(self.render)}" '
+            f"scad\keycap_playground.scad"
         )
 
     def postinit(self, **kwargs):

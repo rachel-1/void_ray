@@ -53,7 +53,7 @@ RENDER = ["keycap", "stem"]; // Supported values: keycap, stem, legends, row, ro
 VISUALIZE_LEGENDS = false; // Set to true to have the legends appear via %
 
 // CONSTANTS
-KEY_UNIT = 13.5; // Square that makes up the entire space of a key
+KEY_UNIT = 14.5; // Square that makes up the entire space of a key
 BETWEENSPACE = 0.8; // The Betweenspace:  The void between realms...  And keycaps (for an 18.25mm keycap)
 
 // BASIC KEYCAP PARAMETERS
@@ -1398,7 +1398,7 @@ module handle_render(what, legends) {
                 key_rotation=KEY_ROTATION,
                 hollow=STEM_HOLLOW,
                 uniform_wall_thickness=UNIFORM_WALL_THICKNESS);
-        } else if (KEY_PROFILE == "riskeycap") {
+        } else if (KEY_PROFILE == "o") {
             riskeystem(
                 stem_type=STEM_TYPE,
                 wall_thickness=WALL_THICKNESS,
