@@ -120,7 +120,7 @@ module sheath_cherry_cross(length, stem_diameter, travel, cover_thickness,
           top_magnet_diameter/2+stem_diameter+magnet_wall_thickness*1.5
           ]) {
             rotate([90,0,0])
-                cylinder(d=top_magnet_diameter+magnet_diameter_tolerance, h=top_magnet_height+0.05, center=true);
+                cylinder(d=top_magnet_diameter+magnet_diameter_tolerance, h=top_magnet_height+0.15, center=true);
         // Visualize the magnet
             %rotate([90,0,0])
                 cylinder(d=top_magnet_diameter, h=top_magnet_height, center=true);
