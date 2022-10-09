@@ -155,7 +155,7 @@ STEM_WALLS_INSET = 0; // Makes it so the stem walls don't go all the way to the 
 STEM_WALLS_TOLERANCE = 0.0; // How much wiggle room the stem sides will get inside the keycap (0.2 is good for snap-fit stems)
 
 // If you want "homing dots" for home row keys:
-HOMING_DOT_LENGTH = 3; // Set to something like "3" for a good, easy-to-feel "dot"
+HOMING_DOT_LENGTH = 0; // Set to something like "3" for a good, easy-to-feel "dot"
 HOMING_DOT_WIDTH = 1; // Default: 1
 HOMING_DOT_X = 0; // 0 == Center
 HOMING_DOT_Y = -KEY_WIDTH * 0.3; // Default: Move it down towards the front a bit
@@ -1398,7 +1398,7 @@ module handle_render(what, legends) {
                 key_rotation=KEY_ROTATION,
                 hollow=STEM_HOLLOW,
                 uniform_wall_thickness=UNIFORM_WALL_THICKNESS);
-        } else if (KEY_PROFILE == "o") {
+        } else if (KEY_PROFILE == "riskeycap") {
             riskeystem(
                 stem_type=STEM_TYPE,
                 wall_thickness=WALL_THICKNESS,

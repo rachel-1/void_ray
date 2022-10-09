@@ -22,7 +22,7 @@ color_init()
 # Our own stuff
 from keycap import Keycap
 
-KEY_UNIT = 13.5 # Square that makes up the entire space of a key
+KEY_UNIT = 14.5 # Square that makes up the entire space of a key
 BETWEENSPACE = 0.8 # Space between keycaps
 
 class riskeyboard70_base(Keycap):
@@ -32,19 +32,19 @@ class riskeyboard70_base(Keycap):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.key_profile = "riskeycap"
-        self.key_rotation = [0,108.6,90]
-        self.key_length = 13.5
-        self.key_width = 13.5
+        self.key_rotation = [0,110.1,90]
+        self.key_length = KEY_UNIT-BETWEENSPACE
+        self.key_width = KEY_UNIT-BETWEENSPACE
         self.wall_thickness = 0.45*2.25
         self.uniform_wall_thickness = True
-        self.dish_thickness = 1.0 # Note: Not actually used
+        self.dish_thickness = 0.6 # Note: Not actually used
         self.stem_type = "box_cherry"
-        self.stem_top_thickness = 0.65 # Note: Not actually used
-        self.stem_inside_tolerance = 0.15
+        self.stem_top_thickness = 0.5 # Note: Not actually used
+        self.stem_inside_tolerance = 0.2
         # Disabled stem side support because it seems it is unnecessary @0.16mm
         self.stem_side_supports = [0,0,0,0]
         self.stem_locations = [[0,0,0]]
-        self.stem_sides_wall_thickness = 0.8; # Thick (good sound/feel)
+        self.stem_sides_wall_thickness = 0.5; # Thick (good sound/feel)
         # Because we do strange things we need legends bigger on the Z
         self.scale = [
             [1,1,3],
@@ -87,7 +87,7 @@ class riskeyboard70_alphas(riskeyboard70_base):
             4, # Front legend
         ]
         self.trans = [
-            [2.6,0,0], # Centered when angled -20°
+            [-0.1,0,0], # Centered when angled -20°
             [3.5,3,1], # Top right Gotham Rounded
             [0.15,-3,2], # Front legend
         ]

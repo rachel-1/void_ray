@@ -8,7 +8,7 @@ keycaps using the Keycap Playground.
 import json
 from pathlib import Path
 
-KEY_UNIT = 19.05 # Square that makes up the entire space of a key
+KEY_UNIT = 14.5 # Square that makes up the entire space of a key
 BETWEENSPACE = 0.8 # Space between keycaps
 
 class Keycap(object):
@@ -70,7 +70,7 @@ class Keycap(object):
             key_height=9,
             key_top_difference=5,
             wall_thickness=0.45*2.25,
-            dish_thickness=1.0,
+            dish_thickness=0.6,
             dish_type="sphere",
             dish_depth=1,
             dish_invert=False,
@@ -100,8 +100,8 @@ class Keycap(object):
             homing_dot_length=0, # 0 means no "dot"
             homing_dot_width=1,
             homing_dot_x=0,
-            homing_dot_y=-2,
-            homing_dot_z=-0.35, # How far it sticks out
+            homing_dot_y=-(KEY_UNIT-BETWEENSPACE) * 0.3,
+            homing_dot_z=0, # How far it sticks out
             legends=[""],
             fonts=[], font_sizes=[],
             trans=[[0,0,0]], trans2=[[0,0,0]],
@@ -260,7 +260,8 @@ class Keycap(object):
             f'-D HOMING_DOT_X="{self.homing_dot_x}" '
             f'-D HOMING_DOT_Y="{self.homing_dot_y}" '
             f'-D HOMING_DOT_Z="{self.homing_dot_z}" '
-            f'-D LEGENDS="{self.quote(self.legends)}" '
+            f'-D LEGENDS="[\\"A\\"]" '
+            # f'-D LEGENDS="{self.quote(self.legends)}" ' # (TODO) figure out the correct escape sequence
             f'-D LEGEND_FONTS="{self.str_fmt(self.fonts)}" '
             f'-D LEGEND_FONT_SIZES="{self.font_sizes}" '
             f'-D LEGEND_TRANS="{self.trans}" '
