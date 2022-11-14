@@ -182,7 +182,7 @@ class Keycap(object):
 
         .. note::
 
-            Example of what it should look like: `LEGENDS=["'"'"'", "", "\""];`
+            Example of what it should look like: `LEGENDS="["'"'"'", "", "\""]";`
         """
         properly_escaped_quote = r'''"'"'"'"'''
         out = "["
@@ -192,7 +192,7 @@ class Keycap(object):
             elif legend == '"':
                 out += r'"\""'
             else:
-                out += json.dumps(legend) + ","
+                out += "\\\"" + legend + "\\\","
         out = out.rstrip(',') # Get rid of trailing comma
         return out + "]"
 
@@ -260,8 +260,8 @@ class Keycap(object):
             f'-D HOMING_DOT_X="{self.homing_dot_x}" '
             f'-D HOMING_DOT_Y="{self.homing_dot_y}" '
             f'-D HOMING_DOT_Z="{self.homing_dot_z}" '
-            f'-D LEGENDS="[\\"A\\"]" '
-            # f'-D LEGENDS="{self.quote(self.legends)}" ' # (TODO) figure out the correct escape sequence
+            #f'-D LEGENDS="[\\"{self.legends}\\"]" '
+            f'-D LEGENDS="{self.quote(self.legends)}" ' # (TODO) figure out the correct escape sequence
             f'-D LEGEND_FONTS="{self.str_fmt(self.fonts)}" '
             f'-D LEGEND_FONT_SIZES="{self.font_sizes}" '
             f'-D LEGEND_TRANS="{self.trans}" '

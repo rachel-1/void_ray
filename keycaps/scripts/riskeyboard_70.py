@@ -47,13 +47,13 @@ class riskeyboard70_base(Keycap):
         self.stem_sides_wall_thickness = 0.5; # Thick (good sound/feel)
         # Because we do strange things we need legends bigger on the Z
         self.scale = [
-            [1,1,3],
+            [1,1,1],
             [1,1.75,3], # For the pipe to make it taller/more of a divider
             [1,1,3],
         ]
         self.fonts = [
-            "Gotham Rounded:style=Bold",
-            "Gotham Rounded:style=Bold",
+            #"Gotham Rounded:style=Bold",
+            #"Gotham Rounded:style=Bold",
             "Arial Black:style=Regular",
         ]
         self.font_sizes = [
@@ -67,7 +67,7 @@ class riskeyboard70_base(Keycap):
             [0.15,-3,2], # Front legend
         ]
         self.rotation = [
-            [0,-20,0],
+            [0,0,0],
             [0,-20,0],
             [68,0,0],
         ]
@@ -79,10 +79,10 @@ class riskeyboard70_alphas(riskeyboard70_base):
     """
     Tilde needs some changes because by default it's too small
     """
-    def __init__(self, **kwargs):
+    def __init__(self, homing_dot=False, **kwargs):
         super().__init__(**kwargs)
         self.font_sizes = [
-            4.5, # Regular Gotham Rounded
+            5.5, # Regular Gotham Rounded
             4,
             4, # Front legend
         ]
@@ -91,6 +91,8 @@ class riskeyboard70_alphas(riskeyboard70_base):
             [3.5,3,1], # Top right Gotham Rounded
             [0.15,-3,2], # Front legend
         ]
+        if homing_dot:
+            self.homing_dot_length = 3
         self.postinit(**kwargs)
 
 class riskeyboard70_numrow(riskeyboard70_base):
@@ -223,19 +225,19 @@ class riskeyboard70_double_legends(riskeyboard70_base):
             4.5, # Regular Gotham Rounded character
         ]
         self.trans = [
-            [-0.3,0,0], # Left Gotham Rounded
-            [2.6,0,0], # Center Gotham Rounded |
-            [5,0,1], # Right-side Gotham symbols
+            [-2,0,0], # Left Gotham Rounded
+            [0,0,0], # Center Gotham Rounded |
+            [2,0,0], # Right-side Gotham symbols
         ]
         self.rotation = [
-            [0,-20,0],
-            [0,-20,0],
-            [0,-20,0],
+            [0,0,0],
+            [0,0,0],
+            [0,0,0],
         ]
         self.scale = [
-            [1,1,3],
+            [1,1,1],
             [1,1.75,3], # For the pipe to make it taller/more of a divider
-            [1,1,3],
+            [1,1,1],
         ]
         self.postinit(**kwargs)
 
@@ -284,9 +286,9 @@ class riskeyboard70_arrows(riskeyboard70_alphas):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.fonts[0] = "Hack"
-        self.fonts[2] = "FontAwesome" # For next/prev track icons
-        self.font_sizes[2] = 4 # FontAwesome prev/next icons
-        self.trans[2] = [0,-2,2] # Ditto
+        #self.fonts[2] = "FontAwesome" # For next/prev track icons
+        #self.font_sizes[2] = 4 # FontAwesome prev/next icons
+        #self.trans[2] = [0,-2,2] # Ditto
 
 class riskeyboard70_fontawesome(riskeyboard70_alphas):
     """
@@ -306,8 +308,8 @@ class riskeyboard70_1_25U(riskeyboard70_alphas):
         super().__init__(**kwargs)
         kwargs_copy = deepcopy(kwargs) # Because self.trans[0] updates in place
         self.key_length = KEY_UNIT*1.25-BETWEENSPACE
-        self.key_rotation = [0,108.55,90]
-        self.trans[0] = [3,0.2,0]
+#        self.key_rotation = [0,108.55,90]
+        self.trans[0] = [0.5,0,0]
         self.postinit(**kwargs_copy)
         if not self.name.startswith('1.25U_'):
             self.name = f"1.25U_{self.name}"
@@ -321,7 +323,8 @@ class riskeyboard70_1_5U(riskeyboard70_double_legends):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.key_length = KEY_UNIT*1.5-BETWEENSPACE
-        self.key_rotation = [0,107.825,90]
+        #self.key_rotation = [0,107.825,90]
+        self.trans[0] = [1.5, 0, 0]
         self.postinit(**kwargs)
         if not self.name.startswith('1.5U_'):
             self.name = f"1.5U_{self.name}"
@@ -459,33 +462,17 @@ class riskeyboard70_7U(riskeyboard70_alphas):
         self.postinit(**kwargs_copy)
         if not self.name.startswith('7U_'):
             self.name = f"7U_{self.name}"
-
-KEYCAPS = [
-    # 1U keys
-    riskeyboard70_base(name="1U_blank"),
-    riskeyboard70_tilde(name="tilde", legends=["`", "", "~"]),
-    riskeyboard70_numrow(legends=["1", "", "!", "F1"]),
-    riskeyboard70_2(legends=["2", "", "@", "F2"]),
-    riskeyboard70_3(legends=["3", "", "#", "F3"]),
-    riskeyboard70_numrow(legends=["4", "", "$", "F4"]),
-    riskeyboard70_5(legends=["5", "", "%", "F5"]),
-    riskeyboard70_numrow(legends=["6", "", "^", "F6"]),
-    riskeyboard70_7(legends=["7", "", "&", "F7"]),
-    riskeyboard70_8(legends=["8", "", "*", "F8"]),
-    riskeyboard70_numrow(legends=["9", "", "(", "F9"]),
-    riskeyboard70_numrow(legends=["0", "", ")", "F10"]),
-    riskeyboard70_dash(name="dash", legends=["-", "", "_", "F11"]),
-    riskeyboard70_equal(name="equal", legends=["=", "", "+", "F12"]),
+    '''
     riskeyboard70_alphas(legends=["A"]),
     riskeyboard70_alphas(legends=["B"]),
     riskeyboard70_alphas(legends=["C"]),
     riskeyboard70_alphas(legends=["D"]),
     riskeyboard70_alphas(legends=["E"]),
-    riskeyboard70_alphas(legends=["F"]),
+    riskeyboard70_alphas(legends=["F"], homing_dot=True),
     riskeyboard70_alphas(legends=["G"]),
     riskeyboard70_alphas(legends=["H"]),
     riskeyboard70_alphas(legends=["I"]),
-    riskeyboard70_alphas(legends=["J"]),
+    riskeyboard70_alphas(legends=["J"], homing_dot=True),
     riskeyboard70_alphas(legends=["K"]),
     riskeyboard70_alphas(legends=["L"]),
     riskeyboard70_alphas(legends=["M"]),
@@ -502,107 +489,25 @@ KEYCAPS = [
     riskeyboard70_alphas(legends=["X"]),
     riskeyboard70_alphas(legends=["Y"]),
     riskeyboard70_alphas(legends=["Z"]),
-    riskeyboard70_alphas(legends=["Z"]),
-    riskeyboard70_alphas(name="menu", legends=["☰"], fonts=["Code2000"]),
-    riskeyboard70_alphas(name="Option1U", legends=["⌥"], fonts=["Code2000"]),
-    riskeyboard70_arrows(name="left", legends=["◀", "", ""]),
-    riskeyboard70_arrows(name="right", legends=["▶", "", ""]),
-    riskeyboard70_arrows(name="up", legends=["▲", "", ""]),
-    riskeyboard70_arrows(name="down", legends=["▼", "", "", ""]),
-    riskeyboard70_arrows(name="eject", legends=[""]), # For Macs
-    riskeyboard70_fontawesome(name="camera", legends=[""]), # aka screenshot
-    riskeyboard70_fontawesome(name="bug", legends=[""]), # Just for fun
-    riskeyboard70_1_U_text(name="RCtrl", legends=["Ctrl"]),
-    riskeyboard70_1_U_text(legends=["Del"]),
-    riskeyboard70_1_U_text(legends=["Ins"]),
-    riskeyboard70_1_U_text(legends=["Esc"]),
-    riskeyboard70_brackets(name="lbracket", legends=["[", "", "{"]),
-    riskeyboard70_brackets(name="rbracket", legends=["]", "", "}"]),
-    riskeyboard70_semicolon(name="semicolon", legends=[";", "", ":"]),
+    riskeyboard70_double_legends(name="lbracket", legends=["[", "", "{"]),
+    riskeyboard70_double_legends(name="rbracket", legends=["]", "", "}"]),
+    riskeyboard70_double_legends(name="semicolon", legends=[";", "", ":"]),
     riskeyboard70_double_legends(name="quote", legends=["'", "", '\"']),
-    riskeyboard70_gt_lt(name="comma", legends=[",", "", "<"]),
-    riskeyboard70_gt_lt(name="dot", legends=[".", "", ">"]),
     riskeyboard70_double_legends(name="slash", legends=["/", "", "?"]),
-    # 1.25U keys
-    riskeyboard70_1_25U(name="blank"),
-    riskeyboard70_1_25U(name="LCtrl", legends=["Ctrl"], font_sizes=[4]),
-    riskeyboard70_1_25U(name="LAlt", legends=["Alt"], font_sizes=[4]),
-    riskeyboard70_1_25U(name="Command", legends=["Cmd"], font_sizes=[4]),
-    riskeyboard70_1_25U(name="CommandSymbol", legends=["⌘"], font_sizes=[4], fonts=["Code2000"]),
-    riskeyboard70_1_25U(name="OptionSymbol", legends=["⌥"], font_sizes=[4], fonts=["Code2000"]),
-    riskeyboard70_1_25U(name="Option", legends=["Option"], font_sizes=[4]),
-    riskeyboard70_1_25U(name="Fun", legends=["Fun"], font_sizes=[4]),
-    riskeyboard70_1_25U(name="MoreFun",
-        legends=["More", "Fun"],
-        trans=[[3,2.5,0], [3,-2.5,0]],
-        font_sizes=[4, 4],
-        scale=[[1,1,3], [1,1,3]]),
-    riskeyboard70_1_25U(legends=["Super", "Duper"],
-        trans=[[3,2.25,0], [3,-2.25,0]], font_sizes=[3.25, 3.25],
-        scale=[[1,1,3], [1,1,3]]),
-    # 1.5U keys
-    riskeyboard70_1_5U(name="blank"),
-    riskeyboard70_bslash(name="bslash", legends=["\\", "", "|"]),
-    riskeyboard70_tab(name="Tab", legends=["Tab"]),
-    # 1.75U keys
-    riskeyboard70_1_75U(name="blank"),
-    riskeyboard70_1_75U(legends=["Compose"],
-        trans=[[3.1,0.2,0]], font_sizes=[3.25]),
-    riskeyboard70_1_75U(name="Caps",
-        legends=["Caps Lock"], trans=[[3.1,0,0]], font_sizes=[3]),
-    # 2U keys
-    riskeyboard70_2U(name="blank"),
-    riskeyboard70_2U(name="TOTALBS",
-        legends=["TOTAL BS"], font_sizes=[3.75, 3.75]),
-    riskeyboard70_2U(name="Backspace", font_sizes=[3.75, 3.75]),
-    riskeyboard70_2U(name="2U_space",
-        # Spacebars don't need to be as thick
-        stem_sides_wall_thickness=0.0,
-        key_rotation=[0,111.88,90], dish_invert=True),
-    # 2.25U keys
-    riskeyboard70_2_25U(name="blank"),
-    riskeyboard70_2_25U(name="Shift", legends=["Shift"]),
-    riskeyboard70_2_25U(name="ShiftyShift",
-        legends=["Shift"], trans=[[9.5,-2.8,0]]),
-    riskeyboard70_2_25U(name="TrueShift", legends=["True Shift"]),
-    riskeyboard70_2_25U(legends=["Return"]),
-    riskeyboard70_2_25U(legends=["Enter"]),
-    # 2.5U keys
-    riskeyboard70_2_5U(name="blank"),
-    riskeyboard70_2_5U(name="Shift", legends=["Shift"]),
-    riskeyboard70_2_5U(name="ShiftyShift",
-        legends=["Shift"], trans=[[10,-2.8,0]]),
-    riskeyboard70_2_5U(name="TrueShift", legends=["True Shift"]),
-    # 2.75U keys
-    riskeyboard70_2_75U(name="blank"),
-    riskeyboard70_2_75U(name="Shift", legends=["Shift"]),
-    riskeyboard70_2_75U(name="ShiftyShift",
-        legends=["Shift"], trans=[[10.5,-2.8,0]]),
-    riskeyboard70_2_75U(name="TrueShift", legends=["True Shift"]),
-    # Various spacebars
-    riskeyboard70_6_25U(name="space",
-        # Spacebars don't need to be as thick
-        stem_sides_wall_thickness=0.0, dish_invert=True),
-    riskeyboard70_7U(name="space",
-        # Spacebars don't need to be as thick
-        stem_sides_wall_thickness=0.0, dish_invert=True),
-    # Numpad keycaps
-    riskeyboard70_alphas(name="numpad1", legends=["1"]),
-    riskeyboard70_alphas(name="numpad2", legends=["2"]),
-    riskeyboard70_alphas(name="numpad3", legends=["3"]),
-    riskeyboard70_alphas(name="numpad4", legends=["4"]),
-    riskeyboard70_alphas(name="numpad5", legends=["5"]),
-    riskeyboard70_alphas(name="numpad6", legends=["6"]),
-    riskeyboard70_alphas(name="numpad7", legends=["7"]),
-    riskeyboard70_alphas(name="numpad8", legends=["8"]),
-    riskeyboard70_alphas(name="numpad9", legends=["9"]),
-    riskeyboard70_2U(name="numpad0", legends=["0"],
-        font_sizes=[4.5]),
-    riskeyboard70_alphas(name="numpaddot", legends=["."]),
-    riskeyboard70_alphas(name="numlock", legends=["Num"]),
-    riskeyboard70_alphas(name="numpadslash", legends=["/"]),
-    riskeyboard70_alphas(name="numpadstar", legends=["*"]),
-    riskeyboard70_alphas(name="numpadminus", legends=["-"]),
+    '''
+KEYCAPS = [
+    # 1U keys
+    #riskeyboard70_double_legends(name="backslash", legends=["\\", "", "|"]),
+    #riskeyboard70_double_legends(name="gt", legends=[".", "", ">?"]),
+    #riskeyboard70_double_legends(name="lt", legends=[",", "", "<?"]),
+    riskeyboard70_1_5U(legends=["Ctrl"]),
+    riskeyboard70_1_5U(legends=["Tab"]),
+    riskeyboard70_1_25U(legends=["Alt"]),
+    riskeyboard70_1_25U(legends=["Alt"]),
+    riskeyboard70_arrows(name="left", legends=["◀"]),
+    riskeyboard70_arrows(name="right", legends=["▶"]),
+    riskeyboard70_arrows(name="up", legends=["▲"]),
+    riskeyboard70_arrows(name="down", legends=["▼"]),
 ]
 
 def print_keycaps():
