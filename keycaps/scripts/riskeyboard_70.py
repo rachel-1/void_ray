@@ -95,6 +95,37 @@ class riskeyboard70_alphas(riskeyboard70_base):
             self.homing_dot_length = 3
         self.postinit(**kwargs)
 
+class riskeyboard70_FKey(riskeyboard70_alphas):
+    """
+    F keys are too large, need to scale smaller
+    """
+    def __init__(self, homing_dot=False, **kwargs):
+        super().__init__(**kwargs)
+        self.font_sizes = [
+            3, # Regular Gotham Rounded
+            4,
+            4, # Front legend
+        ]
+        self.postinit(**kwargs)
+
+class riskeyboard70_home(riskeyboard70_alphas):
+    """
+    F keys are too large, need to scale smaller
+    """
+    def __init__(self, homing_dot=False, **kwargs):
+        super().__init__(**kwargs)
+        self.font_sizes = [
+            9, # Regular Gotham Rounded
+            4,
+            4, # Front legend
+        ]
+        self.fonts = [
+            #"Gotham Rounded:style=Bold",
+            #"Gotham Rounded:style=Bold",
+            "Arial Black:style=Regular",
+        ]
+        self.postinit(**kwargs)
+
 class riskeyboard70_numrow(riskeyboard70_base):
     """
     Number row numbers are slightly different
@@ -222,7 +253,7 @@ class riskeyboard70_double_legends(riskeyboard70_base):
         self.font_sizes = [
             4.5, # Regular Gotham Rounded character
             4.5, # Pipe
-            4.5, # Regular Gotham Rounded character
+            3, # Regular Gotham Rounded character
         ]
         self.trans = [
             [-2,0,0], # Left Gotham Rounded
@@ -238,6 +269,64 @@ class riskeyboard70_double_legends(riskeyboard70_base):
             [1,1,1],
             [1,1.75,3], # For the pipe to make it taller/more of a divider
             [1,1,1],
+        ]
+        self.postinit(**kwargs)
+
+class riskeyboard70_prtsc(riskeyboard70_double_legends):
+    """
+    Rescale for minus key
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.font_sizes = [
+            2.5,
+            3,
+            2.5,
+        ]
+        self.postinit(**kwargs)
+
+class riskeyboard70_pg_ptr(riskeyboard70_double_legends):
+    """
+    Rescale for minus key
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.font_sizes = [
+            3,
+            3,
+            4.5,
+        ]
+        self.fonts[2] = "Hack"
+        self.postinit(**kwargs)
+
+class riskeyboard70_minus(riskeyboard70_double_legends):
+    """
+    Rescale for minus key
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.scale = [
+            [2,2,1],
+            [1,1.75,3], # For the pipe to make it taller/more of a divider
+            [2,2,1],
+        ]
+        self.postinit(**kwargs)
+
+class riskeyboard70_tick(riskeyboard70_double_legends):
+    """
+    Rescale for tick key
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.trans = [
+            [-2.5,-1,0], # Left Gotham Rounded
+            [0,0,0], # Center Gotham Rounded |
+            [2,-0.5,0], # Right-side Gotham symbols
+        ]
+        self.font_sizes = [
+            5.5, # Regular Gotham Rounded character
+            4.5, # Pipe
+            4.5, # Regular Gotham Rounded character
         ]
         self.postinit(**kwargs)
 
@@ -314,6 +403,34 @@ class riskeyboard70_1_25U(riskeyboard70_alphas):
         if not self.name.startswith('1.25U_'):
             self.name = f"1.25U_{self.name}"
 
+class riskeyboard70_1_4U(riskeyboard70_alphas):
+    """
+    The base for all 1.4U keycaps.
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        kwargs_copy = deepcopy(kwargs) # Because self.trans[0] updates in place
+        self.key_length = (KEY_UNIT-2)*1.4+2-BETWEENSPACE
+        self.font_sizes[0] = 4
+        self.trans[0] = [0,0,0]
+        self.postinit(**kwargs_copy)
+        if not self.name.startswith('1.4U_'):
+            self.name = f"1.4U_{self.name}"
+
+class riskeyboard70_1_6U(riskeyboard70_alphas):
+    """
+    The base for all 1.6U keycaps.
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        kwargs_copy = deepcopy(kwargs) # Because self.trans[0] updates in place
+        self.key_length = (KEY_UNIT-2)*1.6+2-BETWEENSPACE
+        self.font_sizes[0] = 4
+        self.trans[0] = [0,0,0]
+        self.postinit(**kwargs_copy)
+        if not self.name.startswith('1.6U_'):
+            self.name = f"1.6U_{self.name}"
+
 class riskeyboard70_1_5U(riskeyboard70_double_legends):
     """
     The base for all 1.5U keycaps.
@@ -329,13 +446,14 @@ class riskeyboard70_1_5U(riskeyboard70_double_legends):
         if not self.name.startswith('1.5U_'):
             self.name = f"1.5U_{self.name}"
 
-class riskeyboard70_bslash(riskeyboard70_1_5U):
+class riskeyboard70_bslash(riskeyboard70_double_legends):
     """
     Backslash key needs a very minor adjustment to the backslash.
     """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.trans[0] = [-0.9,0,0] # Move \ to the left a bit more than normal
+        self.key_length = (KEY_UNIT-2)*2+2-BETWEENSPACE
+        self.trans[0] = [-1.2,0,0.3] # Move \ to the left a bit more than normal
 
 class riskeyboard70_tab(riskeyboard70_1_5U):
     """
@@ -364,11 +482,11 @@ class riskeyboard70_2U(riskeyboard70_alphas):
     """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.key_length = KEY_UNIT*2-BETWEENSPACE
+        self.key_length = (KEY_UNIT-2)*2+2-BETWEENSPACE
+        self.font_sizes[0] = 4
         self.key_rotation = [0,107.85,90] # Same as 1.75U
         if "dish_invert" in kwargs and kwargs["dish_invert"]:
             self.key_rotation = [0,111.88,90] # Spacebars are different
-        self.stem_locations = [[0,0,0], [12,0,0], [-12,0,0]]
         self.postinit(**kwargs)
         if not self.name.startswith('2U_'):
             self.name = f"2U_{self.name}"
@@ -408,6 +526,70 @@ class riskeyboard70_2_5U(riskeyboard70_alphas):
         self.postinit(**kwargs_copy)
         if not self.name.startswith('2.5U_'):
             self.name = f"2.5U_{self.name}"
+
+class riskeyboard70_2_6U(riskeyboard70_alphas):
+    """
+    The base for all 2.6U keycaps.
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        kwargs_copy = deepcopy(kwargs)
+        self.key_length = (KEY_UNIT-2)*2.6+2-BETWEENSPACE
+        self.key_rotation = [0,107.85,90] # Same as 1.75U and 2U
+        if "dish_invert" in kwargs and kwargs["dish_invert"]:
+            self.key_rotation = [0,111.88,90] # Spacebars are different
+        self.stem_locations = [[0,0,0], [11,0,0], [-12,0,0]]
+        self.font_sizes[0] = 4
+        self.postinit(**kwargs_copy)
+        if not self.name.startswith('2.6U_'):
+            self.name = f"2.6U_{self.name}"
+
+class riskeyboard70_enter(riskeyboard70_2_6U):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        kwargs_copy = deepcopy(kwargs)
+        self.stem_locations = [[0,0,0], [11.5,0,0], [-12,0,0]]
+        self.postinit(**kwargs_copy)
+        if not self.name.startswith('2.6U_'):
+            self.name = f"2.6U_{self.name}"
+
+class riskeyboard70_backspace(riskeyboard70_2_6U):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        kwargs_copy = deepcopy(kwargs)
+        self.font_sizes[0] = 3
+        self.stem_locations = [[0,0,0], [11.5,0,0], [-12,0,0]]
+        self.postinit(**kwargs_copy)
+        if not self.name.startswith('2.6U_'):
+            self.name = f"2.6U_{self.name}"
+
+class riskeyboard70_leftSpace(riskeyboard70_alphas):
+    """
+    Left space bar
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        kwargs_copy = deepcopy(kwargs)
+        self.key_length = 49+2-BETWEENSPACE
+        self.key_rotation = [0,107.85,90] # Same as 1.75U and 2U
+        if "dish_invert" in kwargs and kwargs["dish_invert"]:
+            self.key_rotation = [0,111.88,90] # Spacebars are different
+        self.stem_locations = [[0,0,0], [20,0,0], [-20,0,0]]
+        self.postinit(**kwargs_copy)
+
+class riskeyboard70_rightSpace(riskeyboard70_alphas):
+    """
+    Left space bar
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        kwargs_copy = deepcopy(kwargs)
+        self.key_length = 51+2-BETWEENSPACE
+        self.key_rotation = [0,107.85,90] # Same as 1.75U and 2U
+        if "dish_invert" in kwargs and kwargs["dish_invert"]:
+            self.key_rotation = [0,111.88,90] # Spacebars are different
+        self.stem_locations = [[0,0,0], [21,0,0], [-21,0,0]]
+        self.postinit(**kwargs_copy)
 
 class riskeyboard70_2_75U(riskeyboard70_alphas):
     """
@@ -500,10 +682,63 @@ KEYCAPS = [
     #riskeyboard70_double_legends(name="backslash", legends=["\\", "", "|"]),
     #riskeyboard70_double_legends(name="gt", legends=[".", "", ">?"]),
     #riskeyboard70_double_legends(name="lt", legends=[",", "", "<?"]),
-    riskeyboard70_1_5U(legends=["Ctrl"]),
-    riskeyboard70_1_5U(legends=["Tab"]),
-    riskeyboard70_1_25U(legends=["Alt"]),
-    riskeyboard70_1_25U(legends=["Alt"]),
+    riskeyboard70_alphas(name="blank", legends=[""]),
+    riskeyboard70_alphas(legends=["fn"]),
+    riskeyboard70_FKey(legends=["F1"]),
+    riskeyboard70_FKey(legends=["F2"]),
+    riskeyboard70_FKey(legends=["F3"]),
+    riskeyboard70_FKey(legends=["F4"]),
+    riskeyboard70_FKey(legends=["F5"]),
+    riskeyboard70_FKey(legends=["F6"]),
+    riskeyboard70_FKey(legends=["F7"]),
+    riskeyboard70_FKey(legends=["F8"]),
+    riskeyboard70_FKey(legends=["F9"]),
+    riskeyboard70_FKey(legends=["F10"]),
+    riskeyboard70_FKey(legends=["F11"]),
+    riskeyboard70_FKey(legends=["F12"]),
+    riskeyboard70_FKey(legends=["esc"]),
+    riskeyboard70_prtsc(name="prt", legends=["prt", "", "sc"]),
+    riskeyboard70_FKey(legends=["ins"]),
+    riskeyboard70_FKey(legends=["del"]),
+    riskeyboard70_home(name="home", legends=["\\u2302"]), # ⌂
+    riskeyboard70_FKey(legends=["end"]),
+    riskeyboard70_pg_ptr(name="pup", legends=["pg", "", '\\u25B2']), # ▲
+    riskeyboard70_pg_ptr(name="pdn", legends=["pg", "", '\\u25BC']), # ▼
+
+    riskeyboard70_double_legends(name="1", legends=["1", "", '!']),
+    riskeyboard70_double_legends(name="2", legends=["2", "", '@']),
+    riskeyboard70_double_legends(name="3", legends=["3", "", '#']),
+    riskeyboard70_double_legends(name="4", legends=["4", "", '$']),
+    riskeyboard70_double_legends(name="5", legends=["5", "", '%']),
+    # follow two symbols were modified to run through powershell. ^^ escapes ^, "&" allows special character &
+    riskeyboard70_double_legends(name="6", legends=["6", "", '^^']),
+    riskeyboard70_double_legends(name="7", legends=["7", "", '"&"']),
+    riskeyboard70_double_legends(name="8", legends=["8", "", '*']),
+    riskeyboard70_double_legends(name="9", legends=["9", "", '(']),
+    riskeyboard70_double_legends(name="0", legends=["0", "", ')']),
+    riskeyboard70_double_legends(name="equal", legends=["=", "", '+']),
+    riskeyboard70_double_legends(name="gt", legends=[".", "", '">"']),
+    riskeyboard70_double_legends(name="lt", legends=[",", "", '"<"']),
+    riskeyboard70_tick(name="tick", legends=[r"`", "", "~"]),
+    riskeyboard70_double_legends(name="quote", legends=[r"'", "", r'\\\"']),
+    riskeyboard70_minus(name="minus", legends=["-", "", '_']),
+    riskeyboard70_1_4U(legends=["alt"]),
+    riskeyboard70_1_6U(name="LCtrl", legends=["ctrl"]),
+    riskeyboard70_1_6U(legends=["tab"]),
+    riskeyboard70_2U(legends=["caps"]),
+    riskeyboard70_2U(name="RCtrl", legends=["ctrl"]),
+    riskeyboard70_2U(name="RShift", legends=["shift"]),
+    riskeyboard70_bslash(name="bslash", legends=[r'\\\\', "", '"|"']),
+
+    # TODO: 2.6 and longer need supports on the sides
+    riskeyboard70_2_6U(name="LShift", legends=["shift"]),
+    # riskeyboard70_2_6U(name="backspace", legends=["\u2190"]),
+    riskeyboard70_enter(legends=["enter"]),
+    riskeyboard70_backspace(legends=["backspace"]),
+    riskeyboard70_leftSpace(name="LSpace", legends=[""], dish_invert=True),
+    riskeyboard70_rightSpace(name="RSpace", legends=[""], dish_invert=True),
+
+    # keys that don't work with windows terminal, either because of unicode or escape quotes
     riskeyboard70_arrows(name="left", legends=["◀"]),
     riskeyboard70_arrows(name="right", legends=["▶"]),
     riskeyboard70_arrows(name="up", legends=["▲"]),

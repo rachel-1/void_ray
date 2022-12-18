@@ -164,10 +164,12 @@ HOMING_DOT_Z = 0; // 0 == Right at KEY_HEIGHT (dish type makes a big difference 
 
 // LEGENDARY!
 LEGENDS = [ // As many legends as you want
-    "A",
+    "\u2302",
 //    "1", "!", // Just an example of multiple legends (uncomment to try it!)
 //    "☺", // Unicode characters work too!
 ];
+echo(LEGENDS);
+echo("▲");
 // NOTE: Legends might not look quite right until final render (F6)
 LEGEND_FONTS = [ // Each legend can use its own font. If not specified the first font definition will be used
     "Arial Black:style=Regular", // Position/index must match the index in LEGENDS

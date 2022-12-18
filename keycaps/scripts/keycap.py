@@ -184,11 +184,11 @@ class Keycap(object):
 
             Example of what it should look like: `LEGENDS="["'"'"'", "", "\""]";`
         """
-        properly_escaped_quote = r'''"'"'"'"'''
+        properly_escaped_quote = ''
         out = "["
         for i, legend in enumerate(legends):
             if legend == "'":
-                out += properly_escaped_quote + ","
+                out += "\\\"" + "'" + "\\\","
             elif legend == '"':
                 out += r'"\""'
             else:
